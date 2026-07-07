@@ -27,9 +27,9 @@ export default function ImgStack({ images }: ImgStackProps) {
 
   const getCardStyles = (index: number) => {
     const baseRotation = 2;
-    const rotationIncrement = 3;
-    const offsetIncrement = -12;
-    const verticalOffset = -8;
+    const rotationIncrement = 4;
+    const offsetIncrement = -38;
+    const verticalOffset = -7;
 
     return {
       x: index * offsetIncrement,
