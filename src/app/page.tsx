@@ -17,7 +17,7 @@ export default function Home() {
       <Hero />
       <About />
       <Features />
-      <FlightPackages />
+      <FlightPackages />  
       <Banner />
       <HowItWorks />
       <Testimonials />
