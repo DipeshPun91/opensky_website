@@ -1,47 +1,129 @@
-import { FiArrowUpRight } from "react-icons/fi";
-
 export default function Hero() {
   return (
     <section
-      className="relative min-h-screen bg-cover overflow-hidden"
+      className="relative min-h-svh lg:min-h-screen bg-cover bg-center overflow-hidden flex flex-col justify-center lg:block"
       style={{
         backgroundImage: "url('/images/background.png')",
       }}
     >
-      {/* Overlay — darker at the bottom so the big headline stays readable over the photo */}
-      <div className="absolute inset-0 bg-linear-to-b from-black/30 via-black/20 to-black/50" />
+      <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/30 to-black/70" />
 
-      {/* Cards — decorative on large screens only, so they never overflow or cover text on mobile */}
-      <div className="hidden lg:flex absolute left-10 xl:left-16 top-32 z-20 gap-4">
-        <div className="w-64 xl:w-72 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/30 p-8 text-white">
-          <h3 className="uppercase text-2xl xl:text-3xl font-bold leading-tight">
-            Explore our flying options with pro instructors
-          </h3>
-          <div className="mt-16 text-right text-3xl font-light">01</div>
+      <div
+        className="relative z-10 flex flex-col gap-8 px-4 sm:px-6 md:px-10 py-20
+                   lg:block lg:absolute lg:inset-x-0 lg:top-28 xl:top-32 lg:px-16 lg:py-0"
+      >
+        {/* Main text */}
+        <div>
+          <h1 className="text-[12vw] sm:text-7xl md:text-8xl lg:text-[120px] xl:text-[140px] 2xl:text-[180px] font-black leading-[0.9] uppercase tracking-tight drop-shadow-2xl">
+            <span
+              className="block"
+              style={{
+                WebkitTextStroke: "2px rgba(255,255,255,0.9)",
+                color: "transparent",
+              }}
+            >
+              Paragliding
+            </span>
+            <span
+              className="block"
+              style={{
+                WebkitTextStroke: "2px rgba(255,255,255,0.9)",
+                color: "transparent",
+              }}
+            >
+              Pokhara
+            </span>
+          </h1>
+
+          <p className="text-white/90 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl mt-2 sm:mt-3 md:mt-4 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-2xl font-light tracking-wide drop-shadow-lg">
+            Experience the thrill of flying over the stunning Himalayas
+          </p>
         </div>
 
-        <div className="w-64 xl:w-72 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/30 p-8 text-white mt-28">
-          <h3 className="uppercase text-2xl xl:text-3xl font-bold">
-            Experience flying above Pokhara
-          </h3>
-          <div className="mt-16 text-right text-3xl">02</div>
+        {/* Cards one */}
+        <div className="flex flex-col gap-3 sm:gap-4 lg:hidden">
+          <div className="w-full sm:max-w-sm overflow-hidden rounded-xl sm:rounded-2xl bg-black/10 backdrop-blur-md backdrop-saturate-150 border border-white/20 p-4 sm:p-5 text-white">
+            <h3 className="uppercase text-xs sm:text-sm md:text-base font-bold leading-snug">
+              Explore our flying options with pro instructors
+            </h3>
+            <div className="flex justify-end mt-3 sm:mt-4">
+              <span
+                className="text-2xl sm:text-3xl md:text-4xl font-black leading-none"
+                style={{
+                  WebkitTextStroke: "1.5px rgba(255,255,255,0.6)",
+                  color: "transparent",
+                }}
+              >
+                01
+              </span>
+            </div>
+          </div>
+
+          <div className="w-full sm:max-w-sm overflow-hidden rounded-xl sm:rounded-2xl bg-black/10 backdrop-blur-md backdrop-saturate-150 border border-white/20 p-4 sm:p-5 text-white">
+            <h3 className="uppercase text-xs sm:text-sm md:text-base font-bold leading-snug">
+              Experience flying above Pokhara
+            </h3>
+            <p className="text-[10px] sm:text-xs text-white/70 mt-1 font-light">
+              Professional guides, breathtaking views
+            </p>
+            <div className="flex justify-end mt-3 sm:mt-4">
+              <span
+                className="text-2xl sm:text-3xl md:text-4xl font-black leading-none"
+                style={{
+                  WebkitTextStroke: "1.5px rgba(255,255,255,0.6)",
+                  color: "transparent",
+                }}
+              >
+                02
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Main text */}
-      <div className="absolute inset-x-0 bottom-24 sm:bottom-16 lg:bottom-10 z-10 px-6 sm:px-10 lg:px-16">
-        <h1 className="text-[15vw] sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[180px] font-black leading-[0.9] text-white uppercase tracking-tight">
-          Paragliding
-          <br />
-          Pokhara
-        </h1>
-      </div>
+      {/* Cards two */}
+      <div className="hidden lg:flex absolute bottom-10 xl:bottom-16 right-10 xl:right-16 z-20 gap-4 items-end">
+        <div className="relative w-72 xl:w-80 overflow-hidden rounded-2xl bg-black/10 backdrop-blur-md backdrop-saturate-150 border border-white/20 p-6 text-white hover:bg-black/20 transition duration-300 shadow-2xl">
+          <div className="relative z-10">
+            <h3 className="uppercase text-lg xl:text-xl font-bold leading-snug">
+              Explore our flying options with pro instructors
+            </h3>
+          </div>
+          <div className="relative z-10 mt-10 flex justify-end">
+            <span
+              className="text-6xl xl:text-7xl font-black leading-none"
+              style={{
+                WebkitTextStroke: "1.5px rgba(255,255,255,0.6)",
+                color: "transparent",
+              }}
+            >
+              01
+            </span>
+          </div>
+        </div>
 
-      {/* CTA */}
-      <button className="absolute bottom-6 right-6 sm:bottom-10 sm:right-10 lg:right-16 z-20 bg-orange-500 hover:bg-orange-600 transition rounded-full px-6 sm:px-8 py-3 sm:py-4 text-white flex items-center gap-2 font-semibold text-sm sm:text-base">
-        Book Flight
-        <FiArrowUpRight />
-      </button>
+        <div className="relative w-72 xl:w-80 overflow-hidden rounded-2xl bg-black/10 backdrop-blur-md backdrop-saturate-150 border border-white/20 p-6 text-white hover:bg-black/20 transition duration-300 shadow-2xl">
+          <div className="relative z-10">
+            <h3 className="uppercase text-lg xl:text-xl font-bold leading-snug">
+              Experience flying above Pokhara
+            </h3>
+            <p className="text-sm xl:text-base text-white/70 mt-2 font-light">
+              Professional guides, breathtaking views
+            </p>
+          </div>
+          <div className="relative z-10 mt-20 flex justify-end">
+            <span
+              className="text-6xl xl:text-7xl font-black leading-none"
+              style={{
+                WebkitTextStroke: "1.5px rgba(255,255,255,0.6)",
+                color: "transparent",
+              }}
+            >
+              02
+            </span>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
