@@ -20,13 +20,13 @@ export default function Feature() {
         {/* Top Row - Arch Pattern */}
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5 lg:gap-6 lg:items-end max-w-7xl mx-auto">
           {/* Card 1 - Tallest (Left) */}
-          <div className="rounded-xl sm:rounded-2xl bg-linear-to-br from-gray-900 to-black text-white p-6 sm:p-7 min-h-60 lg:h-85 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-xl hover:shadow-2xl">
+          <div className="rounded-xl sm:rounded-2xl bg-linear-to-br from-gray-900 to-black text-white p-6 sm:p-7 min-h-60 lg:h-85 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-xl hover:shadow-2xl overflow-hidden">
             <div>
               <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-400">
                 01
               </span>
 
-              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-2xl font-black uppercase leading-tight wrap-break-word">
+              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight wrap-break-word">
                 Discover Beautiful Pokhara
               </h3>
             </div>
@@ -38,13 +38,13 @@ export default function Feature() {
           </div>
 
           {/* Card 2 - Medium */}
-          <div className="rounded-xl sm:rounded-2xl bg-sky-50 p-6 sm:p-7 min-h-50 lg:h-75 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl">
+          <div className="rounded-xl sm:rounded-2xl bg-sky-50 p-6 sm:p-7 min-h-50 lg:h-75 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl overflow-hidden">
             <div>
               <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-500">
                 02
               </span>
 
-              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
+              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
                 Professional Pilots
               </h3>
             </div>
@@ -56,13 +56,13 @@ export default function Feature() {
           </div>
 
           {/* Card 3 - Shortest (Center) */}
-          <div className="rounded-xl sm:rounded-2xl bg-sky-100 p-6 sm:p-7 min-h-45 lg:h-65 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl">
+          <div className="rounded-xl sm:rounded-2xl bg-sky-100 p-6 sm:p-7 min-h-45 lg:h-65 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl overflow-hidden">
             <div>
               <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-500">
                 03
               </span>
 
-              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
+              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
                 Modern Equipment
               </h3>
             </div>
@@ -74,13 +74,13 @@ export default function Feature() {
           </div>
 
           {/* Card 4 - Medium */}
-          <div className="rounded-xl sm:rounded-2xl bg-sky-50 p-6 sm:p-7 min-h-50 lg:h-75 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl">
+          <div className="rounded-xl sm:rounded-2xl bg-sky-50 p-6 sm:p-7 min-h-50 lg:h-75 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl overflow-hidden">
             <div>
               <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-500">
                 04
               </span>
 
-              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
+              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
                 Amazing Memories
               </h3>
             </div>
@@ -92,13 +92,13 @@ export default function Feature() {
           </div>
 
           {/* Card 5 - Tallest (Right) */}
-          <div className="rounded-xl sm:rounded-2xl bg-linear-to-br from-gray-900 to-black text-white p-6 sm:p-7 min-h-60 lg:h-85 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-xl hover:shadow-2xl">
+          <div className="rounded-xl sm:rounded-2xl bg-linear-to-br from-gray-900 to-black text-white p-6 sm:p-7 min-h-60 lg:h-85 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-xl hover:shadow-2xl overflow-hidden">
             <div>
               <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-400">
                 05
               </span>
 
-              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-2xl font-black uppercase leading-tight wrap-break-word">
+              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight wrap-break-word">
                 Easy Online Booking
               </h3>
             </div>
@@ -152,13 +152,13 @@ export default function Feature() {
         {/* Bottom Row - Arch Pattern (inverted) */}
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5 lg:gap-6 mt-4 sm:mt-5 lg:mt-6 lg:items-start max-w-7xl mx-auto">
           {/* Card 6 - Tallest (Left) */}
-          <div className="rounded-xl sm:rounded-2xl bg-sky-50 p-6 sm:p-7 min-h-50 lg:h-75 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl">
+          <div className="rounded-xl sm:rounded-2xl bg-sky-50 p-6 sm:p-7 min-h-50 lg:h-75 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl overflow-hidden">
             <div>
               <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-500">
                 06
               </span>
 
-              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
+              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
                 Best Prices
               </h3>
             </div>
@@ -169,13 +169,13 @@ export default function Feature() {
           </div>
 
           {/* Card 7 - Medium */}
-          <div className="rounded-xl sm:rounded-2xl bg-sky-100 p-6 sm:p-7 min-h-45 lg:h-65 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl">
+          <div className="rounded-xl sm:rounded-2xl bg-sky-100 p-6 sm:p-7 min-h-45 lg:h-65 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl overflow-hidden">
             <div>
               <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-500">
                 07
               </span>
 
-              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
+              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
                 Group Discounts
               </h3>
             </div>
@@ -186,20 +186,20 @@ export default function Feature() {
           </div>
 
           {/* Card 8 - Shortest (Center) */}
-          <div className="rounded-xl sm:rounded-2xl bg-linear-to-br from-sky-500 to-sky-600 text-white min-h-40 lg:h-55 flex items-center justify-center p-6 sm:p-7 shadow-xl hover:shadow-2xl transition duration-300 hover:scale-[1.02]">
-            <h3 className="text-xl sm:text-xl lg:text-2xl font-black uppercase leading-tight text-center wrap-break-word">
+          <div className="rounded-xl sm:rounded-2xl bg-linear-to-br from-sky-500 to-sky-600 text-white min-h-40 lg:h-55 flex items-center justify-center p-6 sm:p-7 shadow-xl hover:shadow-2xl transition duration-300 hover:scale-[1.02] overflow-hidden">
+            <h3 className="text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight text-center wrap-break-word">
               Your Next Adventure Starts Here
             </h3>
           </div>
 
           {/* Card 9 - Medium */}
-          <div className="rounded-xl sm:rounded-2xl bg-sky-100 p-6 sm:p-7 min-h-45 lg:h-65 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl">
+          <div className="rounded-xl sm:rounded-2xl bg-sky-100 p-6 sm:p-7 min-h-45 lg:h-65 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl overflow-hidden">
             <div>
               <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-500">
                 09
               </span>
 
-              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
+              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
                 Flexible Scheduling
               </h3>
             </div>
@@ -210,13 +210,13 @@ export default function Feature() {
           </div>
 
           {/* Card 10 - Tallest (Right) */}
-          <div className="rounded-xl sm:rounded-2xl bg-sky-50 p-6 sm:p-7 min-h-50 lg:h-75 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl">
+          <div className="rounded-xl sm:rounded-2xl bg-sky-50 p-6 sm:p-7 min-h-50 lg:h-75 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl overflow-hidden">
             <div>
               <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-500">
                 10
               </span>
 
-              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
+              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
                 Safety First
               </h3>
             </div>
