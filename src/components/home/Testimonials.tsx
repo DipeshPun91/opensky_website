@@ -6,7 +6,7 @@ const testimonials = [
     name: "Emily Johnson",
     country: "United Kingdom",
     image:
-      "https://images.unsplash.com/photo-1494790108376-be9c4b6d3e5c?w=200&h=200&fit=crop&crop=center",
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=center",
     review:
       "An unforgettable experience! The team made me feel safe from the beginning, and the views over Pokhara Valley and the Annapurna range were absolutely breathtaking. Highly recommended!",
   },
