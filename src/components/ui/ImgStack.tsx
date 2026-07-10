@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { motion, PanInfo } from "framer-motion";
 
@@ -25,20 +25,60 @@ export default function ImgStack({ images }: ImgStackProps) {
   const dragStartPos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const minDragDistance: number = 50;
 
-  const getCardStyles = (index: number) => {
-    const baseRotation = 2;
-    const rotationIncrement = 4;
-    const offsetIncrement = -38;
-    const verticalOffset = -7;
+  // --- Responsive sizing: measure the container, derive everything else ---
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState<number>(384);
 
-    return {
-      x: index * offsetIncrement,
-      y: index * verticalOffset,
-      rotate: index === 0 ? 0 : -(baseRotation + index * rotationIncrement),
-      scale: 1,
-      transition: { duration: 0.5 },
-    };
-  };
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new ResizeObserver((entries) => {
+      const width = entries[0]?.contentRect.width;
+      if (width) setContainerWidth(width);
+    });
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // All fan-out math is a fraction of the *measured* container width,
+  // so the stack always stays inside its own box — no fixed-px offsets
+  // that only worked at 384px and blew out on small screens.
+  const cardWidthFraction = 0.58;
+  const offsetFraction = -0.09;
+  const verticalFraction = -0.018;
+
+  const cardWidth = containerWidth * cardWidthFraction;
+  const offsetIncrement = containerWidth * offsetFraction;
+  const verticalOffset = containerWidth * verticalFraction;
+  const dragBound = containerWidth * 0.35;
+
+  const getCardStyles = useCallback(
+    (index: number) => {
+      const baseRotation = 2;
+      const rotationIncrement = 4;
+
+      // Center the fan as a whole instead of anchoring it at card 0.
+      // Previously every card shifted further left with no rightward
+      // counterbalance (x = index * offsetIncrement), so the stack was
+      // lopsided — overflowing on the left, empty space on the right.
+      // Subtracting the midpoint index makes the fan symmetric: earlier
+      // cards shift right, later cards shift left, balanced around the
+      // container's true center.
+      const midpoint = (cards.length - 1) / 2;
+      const centeredStep = index - midpoint;
+
+      return {
+        x: centeredStep * offsetIncrement,
+        y: Math.abs(centeredStep) * verticalOffset,
+        rotate: index === 0 ? 0 : -(baseRotation + index * rotationIncrement),
+        scale: 1,
+        transition: { duration: 0.5 },
+      };
+    },
+    [offsetIncrement, verticalOffset, cards.length],
+  );
 
   const handleDragStart = (_event: MouseEvent | TouchEvent, info: PanInfo) => {
     dragStartPos.current = { x: info.point.x, y: info.point.y };
@@ -51,10 +91,7 @@ export default function ImgStack({ images }: ImgStackProps) {
     );
 
     if (isAnimating) return;
-
-    if (dragDistance < minDragDistance) {
-      return;
-    }
+    if (dragDistance < minDragDistance) return;
 
     setIsAnimating(true);
 
@@ -75,7 +112,10 @@ export default function ImgStack({ images }: ImgStackProps) {
   };
 
   return (
-    <div className="relative flex items-center justify-center w-96 h-96 my-12">
+    <div
+      ref={containerRef}
+      className="relative flex items-center justify-center w-full max-w-55 sm:max-w-65 md:max-w-[320px] lg:max-w-96 aspect-square my-8 sm:my-10 md:my-12 mx-auto"
+    >
       {cards.map((card: Card, index: number) => {
         const isTopCard = index === 0;
         const cardStyles = getCardStyles(index);
@@ -84,15 +124,21 @@ export default function ImgStack({ images }: ImgStackProps) {
         return (
           <motion.div
             key={card.id}
-            className="absolute w-64 origin-bottom-center overflow-hidden rounded-xl shadow-xl bg-white cursor-grab active:cursor-grabbing border border-gray-100"
+            className="absolute origin-bottom-center overflow-hidden rounded-xl shadow-xl bg-white cursor-grab active:cursor-grabbing border border-gray-100"
             style={{
               zIndex: card.zIndex,
               aspectRatio: "5/7",
+              width: cardWidth,
             }}
             animate={cardStyles}
             drag={canDrag}
             dragElastic={0.2}
-            dragConstraints={{ left: -150, right: 150, top: -150, bottom: 150 }}
+            dragConstraints={{
+              left: -dragBound,
+              right: dragBound,
+              top: -dragBound,
+              bottom: dragBound,
+            }}
             dragSnapToOrigin={true}
             dragTransition={{ bounceStiffness: 600, bounceDamping: 10 }}
             onDragStart={handleDragStart}
@@ -118,7 +164,7 @@ export default function ImgStack({ images }: ImgStackProps) {
               alt={`Card ${card.id + 1}`}
               fill
               className="object-cover rounded-lg pointer-events-none"
-              sizes="(max-width: 768px) 100vw, 200px"
+              sizes="(max-width: 480px) 130px, (max-width: 768px) 160px, 220px"
               draggable={false}
             />
           </motion.div>
