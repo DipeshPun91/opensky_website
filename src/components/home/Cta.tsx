@@ -21,7 +21,7 @@ export default function Cta() {
 
       {/* Content */}
       <div className="absolute inset-0 flex items-center justify-center px-4 sm:px-6 md:px-10 lg:px-16">
-        <div className="max-w-5xl text-center text-white">
+        <div className="max-w-7xl mx-auto text-center text-white w-full">
           {/* Small Tag */}
           <p className="uppercase tracking-[4px] text-xs sm:text-sm text-sky-400 font-medium">
             Your Adventure Starts Here
@@ -43,51 +43,18 @@ export default function Cta() {
           </p>
 
           {/* Buttons */}
-          <div className="mt-8 sm:mt-10 md:mt-12 flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-5">
-            <button className="inline-flex items-center gap-2 sm:gap-3 rounded-md bg-sky-500 hover:bg-sky-600 transition-all duration-300 text-white px-6 sm:px-8 py-3 sm:py-4 font-semibold uppercase tracking-[2px] shadow-lg shadow-sky-500/30 hover:shadow-xl hover:shadow-sky-500/40 hover:scale-105 group text-sm sm:text-base">
+          <div className="mt-8 sm:mt-10 md:mt-12 flex flex-wrap justify-center gap-3 sm:gap-4">
+            <button className="inline-flex items-center gap-2 rounded-md bg-sky-500 hover:bg-sky-600 transition-all duration-300 text-white px-4 sm:px-5 py-2 sm:py-2.5 font-semibold uppercase tracking-[2px] hover:scale-105 group text-xs sm:text-sm">
               Book Your Flight
-              <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+              <FaArrowRight
+                size={14}
+                className="group-hover:translate-x-1 transition-transform"
+              />
             </button>
 
-            <button className="rounded-md border-2 border-white/80 hover:border-white px-6 sm:px-8 py-3 sm:py-4 uppercase tracking-[2px] font-semibold text-white hover:bg-white hover:text-gray-900 transition-all duration-300 text-sm sm:text-base">
+            <button className="rounded-md border-2 border-white/80 hover:border-white px-4 sm:px-5 py-2 sm:py-2.5 uppercase tracking-[2px] font-semibold text-white hover:bg-white hover:text-gray-900 transition-all duration-300 text-xs sm:text-sm">
               Learn More
             </button>
-          </div>
-
-          {/* Trust Badges */}
-          <div className="mt-10 sm:mt-12 md:mt-14 flex flex-wrap justify-center gap-6 sm:gap-8 md:gap-12">
-            <div className="text-center">
-              <p className="text-2xl sm:text-3xl md:text-4xl font-black text-sky-400">
-                2500+
-              </p>
-              <p className="text-[10px] sm:text-xs uppercase tracking-wider text-white/70 mt-1">
-                Happy Clients
-              </p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl sm:text-3xl md:text-4xl font-black text-sky-400">
-                4.9★
-              </p>
-              <p className="text-[10px] sm:text-xs uppercase tracking-wider text-white/70 mt-1">
-                Average Rating
-              </p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl sm:text-3xl md:text-4xl font-black text-sky-400">
-                100%
-              </p>
-              <p className="text-[10px] sm:text-xs uppercase tracking-wider text-white/70 mt-1">
-                Safety Record
-              </p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl sm:text-3xl md:text-4xl font-black text-sky-400">
-                10+
-              </p>
-              <p className="text-[10px] sm:text-xs uppercase tracking-wider text-white/70 mt-1">
-                Years Experience
-              </p>
-            </div>
           </div>
         </div>
       </div>
