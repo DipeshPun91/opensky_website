@@ -5,21 +5,18 @@ const videos = [
   {
     thumbnail:
       "https://plus.unsplash.com/premium_photo-1666797173828-e93427443e3b?w=600&auto=format&fit=crop&crop=center",
-
     title: "Soaring Above Pokhara Valley",
     duration: "2:35",
   },
   {
     thumbnail:
       "https://images.unsplash.com/photo-1677856216675-a397a342cdd2?w=600&auto=format&fit=crop&crop=center",
-
     title: "Tandem Flight Over Phewa Lake",
     duration: "3:20",
   },
   {
     thumbnail:
       "https://images.unsplash.com/photo-1530007874544-a6f7674b5a47?w=600&auto=format&fit=crop&crop=center",
-
     title: "Himalayan Paragliding Adventure",
     duration: "4:15",
   },
@@ -32,7 +29,6 @@ const videos = [
   {
     thumbnail:
       "https://images.unsplash.com/photo-1620720970374-5b7e67e1e610?w=600&auto=format&fit=crop&crop=center",
-
     title: "Professional Pilot Training",
     duration: "3:45",
   },
@@ -47,7 +43,7 @@ const videos = [
 export default function Videos() {
   return (
     <section className="py-16 sm:py-20 md:py-24 bg-linear-to-b from-gray-50 to-white w-full">
-      <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16">
+      <div className="px-6 sm:px-10 lg:px-16">
         {/* Heading */}
         <div className="text-center mb-12 sm:mb-16 max-w-7xl mx-auto">
           <p className="uppercase tracking-[4px] text-xs sm:text-sm text-sky-500 font-medium">
@@ -71,7 +67,7 @@ export default function Videos() {
           {videos.map((video, index) => (
             <div
               key={index}
-              className="group relative overflow-hidden rounded-2xl sm:rounded-3xl cursor-pointer shadow-lg hover:shadow-2xl transition duration-300 hover:-translate-y-2"
+              className="group relative overflow-hidden rounded-2xl sm:rounded-3xl cursor-pointer transition duration-300 hover:scale-[1.02] hover:z-10"
             >
               {/* Thumbnail */}
               <div className="relative aspect-video">
@@ -87,7 +83,7 @@ export default function Videos() {
 
                 {/* Play Button */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-sky-500/90 backdrop-blur flex items-center justify-center transition duration-300 group-hover:scale-110 group-hover:bg-sky-600 shadow-lg shadow-sky-500/30">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-sky-500/90 backdrop-blur flex items-center justify-center transition duration-300 group-hover:scale-110 group-hover:bg-sky-600">
                     <FaPlay className="text-white text-xl sm:text-2xl md:text-3xl ml-1" />
                   </div>
                 </div>
@@ -116,9 +112,12 @@ export default function Videos() {
 
         {/* CTA Button */}
         <div className="mt-12 sm:mt-16 flex justify-center max-w-7xl mx-auto">
-          <button className="inline-flex items-center gap-3 rounded-md bg-sky-500 hover:bg-sky-600 transition-all duration-300 text-white px-6 sm:px-8 py-3 sm:py-4 font-semibold uppercase tracking-[2px] shadow-lg shadow-sky-500/30 hover:shadow-xl hover:shadow-sky-500/40 hover:scale-105 group text-sm">
+          <button className="inline-flex items-center gap-2 rounded-md bg-sky-500 hover:bg-sky-600 transition-all duration-300 text-white px-5 sm:px-6 py-2.5 sm:py-3 font-semibold uppercase tracking-[2px] hover:scale-105 group text-xs sm:text-sm">
             Watch More Videos
-            <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+            <FaArrowRight
+              size={14}
+              className="group-hover:translate-x-1 transition-transform"
+            />
           </button>
         </div>
       </div>
