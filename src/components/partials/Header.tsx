@@ -44,15 +44,18 @@ export default function Header() {
         </nav>
 
         {/* Right */}
-        <div className="flex items-center gap-4 sm:gap-6 lg:gap-8">
-          <button className="hidden sm:flex items-center gap-2 text-white hover:text-sky-400 transition">
-            🇬🇧
-            <FiChevronDown />
+        <div className="flex items-center gap-4 sm:gap-6">
+          <button className="hidden sm:flex items-center gap-2 text-white hover:text-sky-400 transition text-sm">
+            Nepal
+            <FiChevronDown size={16} />
           </button>
 
-          <button className="hidden sm:flex rounded-md px-6 lg:px-8 py-3 lg:py-4 font-semibold text-white items-center gap-2 bg-sky-500 hover:bg-sky-600 hover:scale-105 transition-all duration-300 text-sm lg:text-base whitespace-nowrap shadow-lg shadow-sky-500/30">
+          <button className="hidden sm:flex rounded-md px-5 py-2.5 font-semibold text-white items-center gap-2 bg-sky-500 hover:bg-sky-600 hover:scale-105 transition-all duration-300 text-sm whitespace-nowrap shadow-lg shadow-sky-500/30">
             BOOK FLIGHT
-            <FiArrowUpRight className="group-hover:rotate-45 transition" />
+            <FiArrowUpRight
+              size={16}
+              className="group-hover:rotate-45 transition"
+            />
           </button>
 
           {/* Mobile menu toggle */}
@@ -86,14 +89,14 @@ export default function Header() {
 
           <div className="mt-6 flex items-center gap-4">
             <button className="flex items-center gap-2 text-white text-sm hover:text-sky-400 transition">
-              🇬🇧 English
-              <FiChevronDown />
+              Nepal
+              <FiChevronDown size={16} />
             </button>
           </div>
 
-          <button className="mt-6 w-full rounded-md px-8 py-4 font-semibold text-white flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-sky-500/30">
+          <button className="mt-6 w-full rounded-md px-6 py-3.5 font-semibold text-white flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-sky-500/30 text-sm">
             BOOK FLIGHT
-            <FiArrowUpRight />
+            <FiArrowUpRight size={16} />
           </button>
         </nav>
       )}
