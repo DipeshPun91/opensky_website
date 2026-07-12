@@ -1,5 +1,15 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { FaClock, FaMountain, FaCamera } from "react-icons/fa6";
+import {
+  container,
+  riseIn,
+  slideInBottom,
+  createStaggerContainer,
+} from "@/lib/animations";
+import Seperator from "../ui/Seperator";
 
 const flights = [
   {
@@ -40,12 +50,24 @@ const flights = [
   },
 ];
 
+// Custom stagger with faster timing for cards
+const cardContainer = createStaggerContainer(0.1, 0.1);
+
 export default function FlightPackages() {
   return (
-    <section className="py-16 sm:py-20 md:py-24 bg-linear-to-b from-gray-50 to-white w-full">
+    <motion.section
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.1 }}
+      variants={container}
+      className="py-16 sm:py-20 md:py-24 bg-linear-to-b from-gray-50 to-white w-full overflow-hidden"
+    >
       <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16">
         {/* Heading */}
-        <div className="text-center mb-14 sm:mb-20 max-w-7xl mx-auto">
+        <motion.div
+          variants={riseIn}
+          className="text-center mb-14 sm:mb-20 max-w-7xl mx-auto"
+        >
           <p className="uppercase tracking-[4px] text-xs sm:text-sm text-sky-500 font-medium">
             Paragliding Flights
           </p>
@@ -54,35 +76,60 @@ export default function FlightPackages() {
             Choose Your Flight
           </h2>
 
-          <div className="w-20 h-1 bg-sky-500 mx-auto mt-4 rounded-full"></div>
+          <motion.div variants={riseIn}>
+            <Seperator />
+          </motion.div>
 
-          <p className="mt-6 max-w-2xl mx-auto text-gray-600 leading-7 sm:leading-8 text-sm sm:text-base">
+          <motion.p
+            variants={riseIn}
+            className="mt-6 max-w-2xl mx-auto text-gray-600 leading-7 sm:leading-8 text-sm sm:text-base"
+          >
             Three of Pokhara&apos;s most flown packages, each launching from
             Sarangkot with a certified tandem pilot and views over Phewa Lake
             and the Annapurna range.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Cards - All equal height */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto">
+        <motion.div
+          variants={cardContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto"
+        >
           {flights.map((flight, index) => (
-            <div
+            <motion.div
               key={index}
+              variants={slideInBottom}
+              whileHover={{
+                y: flight.popular ? -12 : -8,
+                transition: { duration: 0.3 },
+              }}
               className={`group relative flex flex-col bg-white rounded-2xl sm:rounded-3xl overflow-hidden border transition-all duration-300 h-full ${
                 flight.popular
-                  ? "border-sky-500/30 shadow-xl shadow-sky-500/10 lg:-translate-y-2 hover:-translate-y-3"
-                  : "border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1"
+                  ? "border-sky-500/30 shadow-xl shadow-sky-500/10 lg:-translate-y-2"
+                  : "border-gray-100 shadow-sm hover:shadow-xl"
               }`}
             >
               {/* Most Booked pill */}
               {flight.popular && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10 bg-sky-500 text-white text-[11px] font-bold uppercase tracking-[2px] px-4 py-1.5 rounded-b-lg shadow-md">
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                  className="absolute top-0 left-1/2 -translate-x-1/2 z-10 bg-sky-500 text-white text-[11px] font-bold uppercase tracking-[2px] px-4 py-1.5 rounded-b-lg shadow-md"
+                >
                   {flight.tag}
-                </div>
+                </motion.div>
               )}
 
               {/* Image */}
-              <div className="relative h-56 sm:h-64 md:h-72 lg:h-64 xl:h-72 overflow-hidden shrink-0">
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.4 }}
+                className="relative h-56 sm:h-64 md:h-72 lg:h-64 xl:h-72 overflow-hidden shrink-0"
+              >
                 <Image
                   src={flight.image}
                   alt={flight.title}
@@ -92,14 +139,24 @@ export default function FlightPackages() {
                 <div className="absolute inset-0 bg-linear-to-t from-black/25 via-transparent to-transparent" />
 
                 {/* Duration pill on image */}
-                <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur text-gray-800 rounded-full px-3.5 py-1.5 text-xs font-semibold tracking-wide shadow-md flex items-center gap-1.5">
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                  className="absolute bottom-4 left-4 bg-white/95 backdrop-blur text-gray-800 rounded-full px-3.5 py-1.5 text-xs font-semibold tracking-wide shadow-md flex items-center gap-1.5"
+                >
                   <FaClock className="text-sky-500 w-3 h-3" />
                   {flight.duration}
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
 
               {/* Content - Fixed height and flex to fill */}
-              <div className="flex flex-col flex-1 p-6 sm:p-7 md:p-8">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                className="flex flex-col flex-1 p-6 sm:p-7 md:p-8"
+              >
                 {!flight.popular && (
                   <span className="text-xs font-semibold uppercase tracking-[3px] text-sky-500">
                     {flight.tier} · {flight.tag}
@@ -115,18 +172,28 @@ export default function FlightPackages() {
                   {flight.title}
                 </h3>
 
-                <div className="mt-4 flex items-end gap-1.5">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                  className="mt-4 flex items-end gap-1.5"
+                >
                   <span className="text-4xl md:text-5xl font-black text-gray-900">
                     ${flight.price}
                   </span>
                   <span className="text-sm text-gray-400 mb-1.5">/ person</span>
-                </div>
+                </motion.div>
 
                 <div className="h-px bg-gray-100 my-5" />
 
                 {/* Stats */}
                 <div className="space-y-3.5 flex-1">
-                  <div className="flex items-center gap-3">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                    className="flex items-center gap-3"
+                  >
                     <span className="flex items-center justify-center w-9 h-9 rounded-full bg-sky-50 text-sky-600 shrink-0">
                       <FaMountain className="w-4 h-4" />
                     </span>
@@ -138,9 +205,14 @@ export default function FlightPackages() {
                         {flight.altitude}
                       </p>
                     </div>
-                  </div>
+                  </motion.div>
 
-                  <div className="flex items-center gap-3">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4, duration: 0.5 }}
+                    className="flex items-center gap-3"
+                  >
                     <span className="flex items-center justify-center w-9 h-9 rounded-full bg-sky-50 text-sky-600 shrink-0">
                       <FaCamera className="w-4 h-4" />
                     </span>
@@ -152,11 +224,19 @@ export default function FlightPackages() {
                         {flight.photos}
                       </p>
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
 
                 {/* CTA - Always at bottom */}
-                <button
+                <motion.button
+                  whileHover={{
+                    scale: 1.02,
+                    transition: { duration: 0.2 },
+                  }}
+                  whileTap={{
+                    scale: 0.95,
+                    transition: { duration: 0.1 },
+                  }}
                   type="button"
                   className={`mt-6 w-full py-3.5 rounded-lg text-sm font-bold uppercase tracking-wide transition duration-300 ${
                     flight.popular
@@ -165,12 +245,12 @@ export default function FlightPackages() {
                   }`}
                 >
                   Book This Flight
-                </button>
-              </div>
-            </div>
+                </motion.button>
+              </motion.div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }
