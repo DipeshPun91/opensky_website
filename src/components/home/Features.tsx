@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Separator from "../ui/Seperator";
 
 export default function Feature() {
   return (
@@ -14,98 +15,123 @@ export default function Feature() {
             Experience The Difference
           </h2>
 
-          <div className="w-20 h-1 bg-sky-500 mx-auto mt-4 rounded-full"></div>
+          <Separator />
         </div>
 
         {/* Top Row - Arch Pattern */}
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5 lg:gap-6 lg:items-end max-w-7xl mx-auto">
-          {/* Card 1 - Tallest (Left) */}
-          <div className="rounded-xl sm:rounded-2xl bg-linear-to-br from-gray-900 to-black text-white p-6 sm:p-7 min-h-60 lg:h-85 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-xl hover:shadow-2xl overflow-hidden">
+          {/* Card 1 */}
+          <div className="group rounded-xl sm:rounded-2xl bg-linear-to-br from-gray-900 to-black text-white p-6 sm:p-7 min-h-60 lg:h-85 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 overflow-hidden border-2 border-sky-400/30">
             <div>
-              <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-400">
-                01
-              </span>
+              <div className="flex items-center justify-between">
+                <span
+                  className="text-3xl sm:text-4xl lg:text-5xl font-black leading-none transition-colors duration-300 group-hover:text-sky-400"
+                  style={{
+                    WebkitTextStroke: "1.5px rgba(255,255,255,0.3)",
+                    color: "transparent",
+                  }}
+                >
+                  01
+                </span>
+              </div>
 
               <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight wrap-break-word">
-                Discover Beautiful Pokhara
+                Discover Pokhara
               </h3>
             </div>
 
             <p className="text-xs sm:text-sm leading-6 sm:leading-7 text-gray-300">
-              Fly over Phewa Lake and the Pokhara Valley and enjoy breathtaking
-              panoramic views with our experienced instructors.
+              Fly over Phewa Lake with expert instructors and enjoy breathtaking
+              Himalayan views.
             </p>
           </div>
 
-          {/* Card 2 - Medium */}
-          <div className="rounded-xl sm:rounded-2xl bg-sky-50 p-6 sm:p-7 min-h-50 lg:h-75 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl overflow-hidden">
+          {/* Card 2 */}
+          <div className="group rounded-xl sm:rounded-2xl bg-white p-6 sm:p-7 min-h-50 lg:h-75 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 overflow-hidden border-2 border-sky-400/30">
             <div>
-              <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-500">
-                02
-              </span>
+              <div className="flex items-center justify-between">
+                <span
+                  className="text-3xl sm:text-4xl lg:text-5xl font-black leading-none transition-colors duration-300 group-hover:text-sky-500"
+                  style={{
+                    WebkitTextStroke: "1.5px rgba(0,0,0,0.15)",
+                    color: "transparent",
+                  }}
+                >
+                  02
+                </span>
+              </div>
 
               <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
-                Professional Pilots
+                Expert Pilots
               </h3>
             </div>
 
             <p className="text-xs sm:text-sm leading-6 sm:leading-7 text-gray-600">
-              Our certified tandem pilots ensure every flight is exciting,
-              smooth and completely safe.
+              Certified tandem pilots ensuring safe and thrilling flights every
+              time.
             </p>
           </div>
 
-          {/* Card 3 - Shortest (Center) */}
-          <div className="rounded-xl sm:rounded-2xl bg-sky-100 p-6 sm:p-7 min-h-45 lg:h-65 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl overflow-hidden">
+          {/* Card 3 */}
+          <div className="group rounded-xl sm:rounded-2xl bg-white p-6 sm:p-7 min-h-45 lg:h-65 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 overflow-hidden border-2 border-sky-400/30">
             <div>
-              <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-500">
-                03
-              </span>
-
               <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
-                Modern Equipment
+                Premium Gear
               </h3>
             </div>
 
             <p className="text-xs sm:text-sm leading-6 sm:leading-7 text-gray-600">
-              We use internationally certified equipment that&apos;s inspected
-              before every flight.
+              Internationally certified equipment inspected before every flight.
             </p>
           </div>
 
-          {/* Card 4 - Medium */}
-          <div className="rounded-xl sm:rounded-2xl bg-sky-50 p-6 sm:p-7 min-h-50 lg:h-75 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl overflow-hidden">
+          {/* Card 4 */}
+          <div className="group rounded-xl sm:rounded-2xl bg-white p-6 sm:p-7 min-h-50 lg:h-75 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 overflow-hidden border-2 border-sky-400/30">
             <div>
-              <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-500">
-                04
-              </span>
+              <div className="flex items-center justify-between">
+                <span
+                  className="text-3xl sm:text-4xl lg:text-5xl font-black leading-none transition-colors duration-300 group-hover:text-sky-500"
+                  style={{
+                    WebkitTextStroke: "1.5px rgba(0,0,0,0.15)",
+                    color: "transparent",
+                  }}
+                >
+                  04
+                </span>
+              </div>
 
               <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
-                Amazing Memories
+                Unforgettable Memories
               </h3>
             </div>
 
             <p className="text-xs sm:text-sm leading-6 sm:leading-7 text-gray-600">
-              Capture incredible photos and videos while flying high above Phewa
-              Lake and the Annapurna range.
+              Capture stunning photos and videos above the Annapurna range.
             </p>
           </div>
 
-          {/* Card 5 - Tallest (Right) */}
-          <div className="rounded-xl sm:rounded-2xl bg-linear-to-br from-gray-900 to-black text-white p-6 sm:p-7 min-h-60 lg:h-85 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-xl hover:shadow-2xl overflow-hidden">
+          {/* Card 5 */}
+          <div className="group rounded-xl sm:rounded-2xl bg-linear-to-br from-gray-900 to-black text-white p-6 sm:p-7 min-h-60 lg:h-85 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 overflow-hidden border-2 border-sky-400/30">
             <div>
-              <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-400">
-                05
-              </span>
+              <div className="flex items-center justify-between">
+                <span
+                  className="text-3xl sm:text-4xl lg:text-5xl font-black leading-none transition-colors duration-300 group-hover:text-sky-400"
+                  style={{
+                    WebkitTextStroke: "1.5px rgba(255,255,255,0.3)",
+                    color: "transparent",
+                  }}
+                >
+                  05
+                </span>
+              </div>
 
               <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight wrap-break-word">
-                Easy Online Booking
+                Easy Booking
               </h3>
             </div>
 
             <p className="text-xs sm:text-sm leading-6 sm:leading-7 text-gray-300">
-              Reserve your tandem flight in just a few clicks and get ready for
-              an unforgettable adventure.
+              Reserve your tandem flight in minutes and prepare for adventure.
             </p>
           </div>
         </div>
@@ -151,79 +177,110 @@ export default function Feature() {
 
         {/* Bottom Row - Arch Pattern (inverted) */}
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5 lg:gap-6 mt-4 sm:mt-5 lg:mt-6 lg:items-start max-w-7xl mx-auto">
-          {/* Card 6 - Tallest (Left) */}
-          <div className="rounded-xl sm:rounded-2xl bg-sky-50 p-6 sm:p-7 min-h-50 lg:h-75 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl overflow-hidden">
+          {/* Card 6 */}
+          <div className="group rounded-xl sm:rounded-2xl bg-linear-to-br from-gray-900 to-black text-white p-6 sm:p-7 min-h-50 lg:h-75 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 overflow-hidden border-2 border-sky-400/30">
             <div>
-              <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-500">
-                06
-              </span>
+              <div className="flex items-center justify-between">
+                <span
+                  className="text-3xl sm:text-4xl lg:text-5xl font-black leading-none transition-colors duration-300 group-hover:text-sky-400"
+                  style={{
+                    WebkitTextStroke: "1.5px rgba(255,255,255,0.3)",
+                    color: "transparent",
+                  }}
+                >
+                  06
+                </span>
+              </div>
+
+              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight wrap-break-word">
+                Best Value
+              </h3>
+            </div>
+
+            <p className="text-xs sm:text-sm leading-6 sm:leading-7 text-gray-300">
+              Competitive rates without compromising safety or experience.
+            </p>
+          </div>
+
+          {/* Card 7 */}
+          <div className="group rounded-xl sm:rounded-2xl bg-white p-6 sm:p-7 min-h-45 lg:h-65 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 overflow-hidden border-2 border-sky-400/30">
+            <div>
+              <div className="flex items-center justify-between">
+                <span
+                  className="text-3xl sm:text-4xl lg:text-5xl font-black leading-none transition-colors duration-300 group-hover:text-sky-500"
+                  style={{
+                    WebkitTextStroke: "1.5px rgba(0,0,0,0.15)",
+                    color: "transparent",
+                  }}
+                >
+                  07
+                </span>
+              </div>
 
               <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
-                Best Prices
+                Group Savings
               </h3>
             </div>
 
             <p className="text-xs sm:text-sm leading-6 sm:leading-7 text-gray-600">
-              Competitive rates without compromising on safety or experience.
+              Special discounted rates for groups and families.
             </p>
           </div>
 
-          {/* Card 7 - Medium */}
-          <div className="rounded-xl sm:rounded-2xl bg-sky-100 p-6 sm:p-7 min-h-45 lg:h-65 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl overflow-hidden">
-            <div>
-              <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-500">
-                07
-              </span>
-
-              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
-                Group Discounts
-              </h3>
-            </div>
-
-            <p className="text-xs sm:text-sm leading-6 sm:leading-7 text-gray-600">
-              Special rates for groups and families.
-            </p>
-          </div>
-
-          {/* Card 8 - Shortest (Center) */}
-          <div className="rounded-xl sm:rounded-2xl bg-linear-to-br from-sky-500 to-sky-600 text-white min-h-40 lg:h-55 flex items-center justify-center p-6 sm:p-7 shadow-xl hover:shadow-2xl transition duration-300 hover:scale-[1.02] overflow-hidden">
+          {/* Card 8 */}
+          <div className="rounded-xl sm:rounded-2xl bg-linear-to-br from-sky-500 to-sky-600 text-white min-h-40 lg:h-55 flex items-center justify-center p-6 sm:p-7 transition duration-300 hover:scale-[1.02] overflow-hidden">
             <h3 className="text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight text-center wrap-break-word">
               Your Next Adventure Starts Here
             </h3>
           </div>
 
-          {/* Card 9 - Medium */}
-          <div className="rounded-xl sm:rounded-2xl bg-sky-100 p-6 sm:p-7 min-h-45 lg:h-65 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl overflow-hidden">
+          {/* Card 9 */}
+          <div className="group rounded-xl sm:rounded-2xl bg-white p-6 sm:p-7 min-h-45 lg:h-65 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 overflow-hidden border-2 border-sky-400/30">
             <div>
-              <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-500">
-                09
-              </span>
+              <div className="flex items-center justify-between">
+                <span
+                  className="text-3xl sm:text-4xl lg:text-5xl font-black leading-none transition-colors duration-300 group-hover:text-sky-500"
+                  style={{
+                    WebkitTextStroke: "1.5px rgba(0,0,0,0.15)",
+                    color: "transparent",
+                  }}
+                >
+                  09
+                </span>
+              </div>
 
               <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
-                Flexible Scheduling
+                Flexible Timing
               </h3>
             </div>
 
             <p className="text-xs sm:text-sm leading-6 sm:leading-7 text-gray-600">
-              Book at your convenience with our flexible timing options.
+              Book at your convenience with flexible scheduling.
             </p>
           </div>
 
-          {/* Card 10 - Tallest (Right) */}
-          <div className="rounded-xl sm:rounded-2xl bg-sky-50 p-6 sm:p-7 min-h-50 lg:h-75 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 shadow-md hover:shadow-xl overflow-hidden">
+          {/* Card 10 */}
+          <div className="group rounded-xl sm:rounded-2xl bg-linear-to-br from-gray-900 to-black text-white p-6 sm:p-7 min-h-50 lg:h-75 flex flex-col justify-between gap-6 hover:-translate-y-2 transition duration-300 overflow-hidden border-2 border-sky-400/30">
             <div>
-              <span className="text-xs sm:text-sm tracking-[3px] opacity-70 text-sky-500">
-                10
-              </span>
+              <div className="flex items-center justify-between">
+                <span
+                  className="text-3xl sm:text-4xl lg:text-5xl font-black leading-none transition-colors duration-300 group-hover:text-sky-400"
+                  style={{
+                    WebkitTextStroke: "1.5px rgba(255,255,255,0.3)",
+                    color: "transparent",
+                  }}
+                >
+                  10
+                </span>
+              </div>
 
-              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight text-gray-800 wrap-break-word">
-                Safety First
+              <h3 className="mt-3 sm:mt-4 text-xl sm:text-xl lg:text-xl xl:text-2xl font-black uppercase leading-tight wrap-break-word">
+                Safety Priority
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm leading-6 sm:leading-7 text-gray-600">
-              Top priority on safety with certified equipment and trained
-              pilots.
+            <p className="text-xs sm:text-sm leading-6 sm:leading-7 text-gray-300">
+              Certified equipment and trained pilots ensuring your safety.
             </p>
           </div>
         </div>
