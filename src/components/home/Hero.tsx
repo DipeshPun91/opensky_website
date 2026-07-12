@@ -1,54 +1,15 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
-
-const EASE = [0.22, 1, 0.36, 1] as const;
-
-const container: Variants = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.15,
-    },
-  },
-};
-
-const riseIn: Variants = {
-  hidden: { opacity: 0, y: 28 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.9, ease: EASE },
-  },
-};
-
-const lineReveal: Variants = {
-  hidden: { clipPath: "inset(0 0 100% 0)" },
-  show: {
-    clipPath: "inset(0 0 0% 0)",
-    transition: { duration: 0.9, ease: EASE },
-  },
-};
-
-// Slide in animations for cards
-const slideInRight: Variants = {
-  hidden: { opacity: 0, x: 60 },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.7, ease: EASE },
-  },
-};
-
-const slideInLeft: Variants = {
-  hidden: { opacity: 0, x: -60 },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.7, ease: EASE },
-  },
-};
+import { motion } from "framer-motion";
+import {
+  EASE,
+  container,
+  riseIn,
+  lineReveal,
+  slideInRight,
+  slideInLeft,
+  cardHover,
+} from "@/lib/animations";
 
 // Card data
 const cardData = [
@@ -78,12 +39,7 @@ function FlightCard({ data }: { data: (typeof cardData)[0] }) {
       variants={data.slideVariant}
       initial="hidden"
       animate="show"
-      whileHover={{
-        y: -6,
-        borderColor: "rgba(255, 255, 255, 0.35)",
-        backgroundColor: "rgba(0, 0, 0, 0.35)",
-        transition: { duration: 0.35, ease: EASE },
-      }}
+      whileHover={cardHover.hover}
       className="group relative w-full sm:max-w-sm lg:w-72 xl:w-80 overflow-hidden rounded-xl sm:rounded-2xl bg-black/30 backdrop-blur-xl backdrop-saturate-150 border border-white/15 p-4 sm:p-5 lg:p-6 text-white shadow-2xl"
     >
       <div className="flex items-start justify-between gap-3">

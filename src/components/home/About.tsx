@@ -1,8 +1,8 @@
 import { FaArrowRight } from "react-icons/fa6";
 import ImgStack from "@/components/ui/ImgStack";
+import Separator from "@/components/ui/Seperator";
 
 export default function About() {
-  // Image URLs for the stack
   const images = [
     "https://plus.unsplash.com/premium_photo-1666797173828-e93427443e3b?w=600&auto=format&fit=crop&crop=center",
     "https://images.unsplash.com/photo-1677856216675-a397a342cdd2?w=600&auto=format&fit=crop&crop=center",
@@ -22,14 +22,14 @@ export default function About() {
           </span>
         </div>
 
+        <Separator />
+
         {/* Content - Image Stack Left, Text Right */}
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
-          {/* Left - Image Stack */}
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center mt-6 sm:mt-10">
           <div className="flex justify-center">
             <ImgStack images={images} />
           </div>
 
-          {/* Right Content */}
           <div className="text-left">
             <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-black leading-tight uppercase">
               <span className="text-sky-500">Soar Above Pokhara:</span>
