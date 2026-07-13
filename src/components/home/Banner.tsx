@@ -10,6 +10,7 @@ import {
   useReducedMotion,
   type MotionValue,
 } from "framer-motion";
+import Lightfall from "../ui/Lightfall";
 
 interface ArchCoordinates {
   x: number;
@@ -46,13 +47,12 @@ interface ArchConfig {
   boxSize: number; // px, square image box
   verticalBias: number; // fine-tune nudge only — 0 keeps the arch perfectly centered
 }
-
 function getArchConfig(width: number): ArchConfig {
-  if (width < 480) return { radius: 110, boxSize: 96, verticalBias: 0 };
-  if (width < 640) return { radius: 140, boxSize: 112, verticalBias: 0 };
-  if (width < 768) return { radius: 190, boxSize: 136, verticalBias: 0 };
-  if (width < 1024) return { radius: 280, boxSize: 168, verticalBias: 0 };
-  return { radius: 420, boxSize: 200, verticalBias: 0 };
+  if (width < 480) return { radius: 130, boxSize: 120, verticalBias: 0 };
+  if (width < 640) return { radius: 170, boxSize: 140, verticalBias: 0 };
+  if (width < 768) return { radius: 230, boxSize: 170, verticalBias: 0 };
+  if (width < 1024) return { radius: 350, boxSize: 210, verticalBias: 0 };
+  return { radius: 500, boxSize: 250, verticalBias: 0 };
 }
 
 // The arch spans from the apex (angle 0, highest point) down to the outer
@@ -297,23 +297,28 @@ export default function Banner() {
 
   return (
     <section ref={sectionRef} className="relative h-[300vh] w-full bg-sky-500">
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-linear-to-br from-sky-500 to-sky-600">
-        <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-white/10 blur-2xl" />
-        <div className="pointer-events-none absolute -bottom-32 -right-20 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
-
-        <svg
-          className="pointer-events-none absolute bottom-0 left-0 w-full text-white/10"
-          viewBox="0 0 1440 300"
-          preserveAspectRatio="none"
-          fill="none"
-        >
-          <path
-            d="M0,300 C400,100 1000,100 1440,300"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeDasharray="10,10"
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+        {/* Lightfall Background - Full screen */}
+        <div className="absolute inset-0 z-0">
+          <Lightfall
+            colors={["#0EA5E9", "#2563EB", "#7C3AED"]}
+            backgroundColor="#1E3A5F"
+            speed={0.3}
+            streakCount={3}
+            streakWidth={1.2}
+            streakLength={1.2}
+            glow={1.2}
+            density={0.7}
+            twinkle={1}
+            zoom={2.5}
+            backgroundGlow={0}
+            opacity={0.9}
+            mouseInteraction={true}
+            mouseStrength={0.4}
+            mouseRadius={1.2}
+            mouseDampening={0.15}
           />
-        </svg>
+        </div>
 
         <div className="relative flex h-full w-full items-center justify-center px-6 py-16 sm:px-10 lg:px-20">
           <div className="relative z-10 mx-auto max-w-4xl text-center text-white">
@@ -346,7 +351,7 @@ export default function Banner() {
 
             <motion.button
               style={{ opacity: buttonOpacity, y: buttonY, scale: buttonScale }}
-              className="group inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 text-sm font-bold uppercase tracking-widest text-sky-600 shadow-xl shadow-sky-900/20 transition-all duration-300 hover:scale-105 hover:bg-sky-50 active:scale-95"
+              className="group inline-flex items-center gap-3 rounded-full border-2 border-white/60 hover:border-white px-8 py-4 text-sm font-bold uppercase tracking-widest text-white hover:text-sky-600 hover:bg-white/90 backdrop-blur-sm transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-black/20"
             >
               Book Your Flight
               <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -366,18 +371,6 @@ export default function Banner() {
                 dispersal={dispersal}
                 config={archConfig}
                 viewportWidth={viewportWidth}
-              />
-            ))}
-          </div>
-
-          {/* Scroll Indicator Dots */}
-          <div className="absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 gap-3">
-            {[0, 1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className={`h-2 w-2 rounded-full bg-white transition-opacity duration-300 ${
-                  i === 3 ? "opacity-100" : "opacity-40"
-                }`}
               />
             ))}
           </div>

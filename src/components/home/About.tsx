@@ -33,7 +33,7 @@ export default function About() {
         {/* Top Label */}
         <motion.div
           variants={riseIn}
-          className="flex justify-center mb-6 sm:mb-10"
+          className="flex justify-center mb-3 sm:mb-8"
         >
           <span className="uppercase tracking-[3px] text-xs sm:text-sm font-medium flex items-center gap-2 text-gray-600">
             <motion.span
@@ -52,7 +52,7 @@ export default function About() {
         </motion.div>
 
         {/* Content - Image Stack Left, Text Right */}
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center mt-6 sm:mt-10">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center mt-3 sm:mt-8">
           {/* Left - Image Stack with slide in from left */}
           <motion.div variants={slideInLeft} className="flex justify-center">
             <ImgStack images={images} />
