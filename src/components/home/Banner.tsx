@@ -6,6 +6,7 @@ import { FaArrowRight } from "react-icons/fa";
 import {
   motion,
   useMotionValue,
+  useSpring,
   useTransform,
   useReducedMotion,
   type MotionValue,
@@ -26,8 +27,26 @@ const IMAGES = [
 ];
 
 const ANGLES = [-66, -33, 0, 33, 66];
-const WHEEL_SENSITIVITY = 0.0015;
-const TOUCH_SENSITIVITY = 0.0025;
+
+// --- Scroll feel tuning -----------------------------------------------
+// The raw wheel/touch delta only ever moves a *target* value. What the
+// user actually sees (`progress`) is a spring that chases that target,
+// so no matter how hard or fast someone flicks the wheel/trackpad, the
+// visible animation can't outrun the spring's own pace.
+const WHEEL_SENSITIVITY = 0.00055;
+const TOUCH_SENSITIVITY = 0.0009;
+
+// Hard cap on how much a *single* wheel/touch event can move the target,
+// regardless of how large deltaY is. This stops one aggressive flick
+// (which can report deltaY in the hundreds) from teleporting the target
+// from one end to the other — every flick, fast or slow, advances the
+// target by at most this much.
+const MAX_DELTA_PER_EVENT = 45;
+
+// Spring that the visible progress uses to chase the target. Lower
+// stiffness / higher damping = slower, more "felt" motion. Tweak these
+// two numbers first if you want it to feel even more/less viscous.
+const PROGRESS_SPRING = { stiffness: 55, damping: 22, mass: 1 };
 
 // Phase boundary: everything before this = image dispersal, after = text reveal
 const PHASE_SPLIT = 0.5;
@@ -68,11 +87,21 @@ function getArchVerticalCenter(radius: number): number {
   return (apexY + outerY) / 2;
 }
 
-// SSR-safe viewport width hook with resize listener
+// Default used for BOTH the server render and the client's very first
+// render (pre-hydration). Must be a plain constant — never read from
+// `window` here, or the server and the client's first paint will disagree
+// and React will log a hydration mismatch (which is exactly what you're
+// seeing in the console for every ArchImage's width/margin/transform).
+const SSR_DEFAULT_WIDTH = 1280;
+
+// SSR-safe viewport width hook. Always starts at the same constant on
+// server and client so hydration matches, then corrects to the real
+// viewport size in an effect that only runs after mount (client-only).
+// That correction can cause a brief one-time layout shift right after
+// hydration on non-desktop screens — that's expected and is the standard
+// tradeoff for viewport-dependent layout in SSR apps.
 function useViewportWidth() {
-  const [width, setWidth] = useState<number>(() =>
-    typeof window !== "undefined" ? window.innerWidth : 1280,
-  );
+  const [width, setWidth] = useState<number>(SSR_DEFAULT_WIDTH);
 
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
@@ -169,8 +198,18 @@ export default function Banner() {
   const viewportWidth = useViewportWidth();
   const archConfig = getArchConfig(viewportWidth);
 
-  // Overall interaction progress: 0 = start (gallery formed), 1 = end (text fully shown)
-  const progress = useMotionValue(shouldReduceMotion ? 1 : 0);
+  // `progressTarget` is what wheel/touch input directly drives — it can
+  // jump around instantly. `progress` is a spring chasing that target,
+  // and is what every visual transform below actually reads from. That
+  // split is what makes a fast flick still feel slow: the target may hit
+  // 1 immediately, but the spring takes its own sweet time getting there.
+  const progressTarget = useMotionValue(shouldReduceMotion ? 1 : 0);
+  const progress = useSpring(progressTarget, PROGRESS_SPRING);
+
+  // Boundary checks (below) need to know when the *visible* animation has
+  // actually finished, not just when the target was set — otherwise we'd
+  // release scroll capture before the user ever sees the end of the
+  // sequence. So this ref tracks the smoothed spring value.
   const progressRef = useRef(shouldReduceMotion ? 1 : 0);
   const [locked, setLocked] = useState(false);
 
@@ -217,11 +256,18 @@ export default function Banner() {
 
       e.preventDefault();
 
+      // Clamp the raw delta before it ever touches the target, so one
+      // aggressive flick can't advance things any faster than a gentle one.
+      const clampedDelta = Math.max(
+        -MAX_DELTA_PER_EVENT,
+        Math.min(MAX_DELTA_PER_EVENT, e.deltaY),
+      );
+
       const next = Math.min(
         1,
-        Math.max(0, current + e.deltaY * WHEEL_SENSITIVITY),
+        Math.max(0, progressTarget.get() + clampedDelta * WHEEL_SENSITIVITY),
       );
-      progress.set(next);
+      progressTarget.set(next);
     };
 
     let touchStartY = 0;
@@ -239,11 +285,16 @@ export default function Banner() {
 
       e.preventDefault();
 
+      const clampedDelta = Math.max(
+        -MAX_DELTA_PER_EVENT,
+        Math.min(MAX_DELTA_PER_EVENT, deltaY),
+      );
+
       const next = Math.min(
         1,
-        Math.max(0, current + deltaY * TOUCH_SENSITIVITY),
+        Math.max(0, progressTarget.get() + clampedDelta * TOUCH_SENSITIVITY),
       );
-      progress.set(next);
+      progressTarget.set(next);
       touchStartY = currentY;
     };
 
@@ -256,7 +307,7 @@ export default function Banner() {
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
     };
-  }, [locked, progress, shouldReduceMotion]);
+  }, [locked, progressTarget, shouldReduceMotion]);
 
   // --- Phase 1: image dispersal (progress 0 -> PHASE_SPLIT) ---
   const dispersal = useTransform(progress, [0, PHASE_SPLIT], [0, 1], {

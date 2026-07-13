@@ -10,6 +10,7 @@ import {
   createStaggerContainer,
   EASE,
 } from "@/lib/animations";
+import Seperator from "../ui/Seperator";
 
 const testimonials = [
   {
@@ -63,10 +64,9 @@ export default function Testimonials() {
             What Our Clients Say
           </h2>
 
-          <motion.div
-            variants={riseIn}
-            className="w-20 h-1 bg-sky-500 mx-auto mt-4 rounded-full"
-          />
+          <motion.div variants={riseIn}>
+            <Seperator />
+          </motion.div>
 
           <motion.p
             variants={riseIn}
@@ -141,6 +141,7 @@ export default function Testimonials() {
                     src={item.image}
                     alt={item.name}
                     fill
+                    sizes="(max-width: 640px) 48px, (max-width: 768px) 56px, 64px"
                     className="object-cover"
                   />
                 </div>
