@@ -9,12 +9,14 @@ import Testimonials from "@/components/home/Testimonials";
 import Video from "@/components/home/Video";
 import Cta from "@/components/home/Cta";
 import Footer from "@/components/partials/Footer";
+import Stats from "@/components/home/Stats";
 
 export default function Home() {
   return (
     <>
       <Header />
       <Hero />
+      <Stats />
       <About />
       <Features />
       <FlightPackages />
