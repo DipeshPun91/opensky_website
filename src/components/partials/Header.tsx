@@ -2,19 +2,23 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FiChevronDown, FiArrowUpRight, FiMenu, FiX } from "react-icons/fi";
 
 const menu = [
-  "Home",
-  "About Us",
-  "Tandem Flights",
-  "FAQ",
-  "Gallery",
-  "Contact Us",
+  { label: "Home", href: "/" },
+  { label: "Blogs", href: "/blogs" },
+  { label: "About Us", href: "/about" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Contact Us", href: "/contact" },
 ];
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname?.startsWith(href);
 
   return (
     <header className="fixed top-0 left-0 z-50 w-full bg-linear-to-b from-black/60 to-transparent">
@@ -34,11 +38,14 @@ export default function Header() {
         <nav className="hidden lg:flex gap-10 uppercase text-sm font-semibold tracking-wider text-white">
           {menu.map((item) => (
             <Link
-              href="#"
-              key={item}
-              className="hover:text-sky-400 transition duration-300 relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300 hover:after:w-full"
+              href={item.href}
+              key={item.label}
+              aria-current={isActive(item.href) ? "page" : undefined}
+              className={`relative transition duration-300 after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300 hover:text-sky-400 hover:after:w-full ${
+                isActive(item.href) ? "text-sky-400 after:w-full" : "after:w-0"
+              }`}
             >
-              {item}
+              {item.label}
             </Link>
           ))}
         </nav>
@@ -50,13 +57,16 @@ export default function Header() {
             <FiChevronDown size={16} />
           </button>
 
-          <button className="hidden sm:flex rounded-md px-5 py-2.5 font-semibold text-white items-center gap-2 bg-sky-500 hover:bg-sky-600 hover:scale-105 transition-all duration-300 text-sm whitespace-nowrap shadow-lg shadow-sky-500/30">
+          <Link
+            href="/contact"
+            className="group hidden sm:flex rounded-md px-5 py-2.5 font-semibold text-white items-center gap-2 bg-sky-500 hover:bg-sky-600 hover:scale-105 transition-all duration-300 text-sm whitespace-nowrap shadow-lg shadow-sky-500/30"
+          >
             BOOK FLIGHT
             <FiArrowUpRight
               size={16}
-              className="group-hover:rotate-45 transition"
+              className="group-hover:rotate-45 transition duration-300"
             />
-          </button>
+          </Link>
 
           {/* Mobile menu toggle */}
           <button
@@ -75,13 +85,16 @@ export default function Header() {
         <nav className="lg:hidden bg-black/95 backdrop-blur-md px-6 sm:px-10 pb-8 pt-2 border-t border-white/5">
           <ul className="flex flex-col gap-1 uppercase text-sm font-semibold tracking-wider text-white">
             {menu.map((item) => (
-              <li key={item}>
+              <li key={item.label}>
                 <Link
-                  href="#"
+                  href={item.href}
                   onClick={() => setOpen(false)}
-                  className="block py-3 border-b border-white/10 hover:text-sky-400 hover:pl-2 transition-all duration-300"
+                  aria-current={isActive(item.href) ? "page" : undefined}
+                  className={`block py-3 border-b border-white/10 hover:text-sky-400 hover:pl-2 transition-all duration-300 ${
+                    isActive(item.href) ? "text-sky-400 pl-2" : ""
+                  }`}
                 >
-                  {item}
+                  {item.label}
                 </Link>
               </li>
             ))}
@@ -94,10 +107,17 @@ export default function Header() {
             </button>
           </div>
 
-          <button className="mt-6 w-full rounded-md px-6 py-3.5 font-semibold text-white flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-sky-500/30 text-sm">
+          <Link
+            href="/contact"
+            onClick={() => setOpen(false)}
+            className="group mt-6 w-full rounded-md px-6 py-3.5 font-semibold text-white flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-sky-500/30 text-sm"
+          >
             BOOK FLIGHT
-            <FiArrowUpRight size={16} />
-          </button>
+            <FiArrowUpRight
+              size={16}
+              className="group-hover:rotate-45 transition duration-300"
+            />
+          </Link>
         </nav>
       )}
     </header>

@@ -1,4 +1,4 @@
-import Header from "@/components/partials/Header";
+import Stats from "@/components/home/Stats";
 import Hero from "@/components/home/Hero";
 import About from "@/components/home/About";
 import Features from "@/components/home/Features";
@@ -8,13 +8,10 @@ import HowItWorks from "@/components/home/HowItWorks";
 import Testimonials from "@/components/home/Testimonials";
 import Video from "@/components/home/Video";
 import Cta from "@/components/home/Cta";
-import Footer from "@/components/partials/Footer";
-import Stats from "@/components/home/Stats";
 
 export default function Home() {
   return (
     <>
-      <Header />
       <Hero />
       <Stats />
       <About />
@@ -25,7 +22,6 @@ export default function Home() {
       <Testimonials />
       <Video />
       <Cta />
-      <Footer />
     </>
   );
 }
