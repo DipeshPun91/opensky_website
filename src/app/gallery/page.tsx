@@ -72,11 +72,11 @@ function MosaicBlock({
       initial="hidden"
       whileInView="show"
       viewport={{ once: true }}
-      className="flex flex-wrap max-w-7xl mx-auto md:-m-2 -m-1"
+      className="flex flex-wrap w-full -m-1 md:-m-2"
     >
       {/* Left Column - 50% width */}
       <div className="flex flex-wrap w-full md:w-1/2">
-        <motion.div variants={slideInBottom} className="md:p-2 p-1 w-1/2">
+        <motion.div variants={slideInBottom} className="w-1/2 p-1 md:p-2">
           <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
             <Image
               src={a.src}
@@ -88,7 +88,7 @@ function MosaicBlock({
           </div>
         </motion.div>
 
-        <motion.div variants={slideInBottom} className="md:p-2 p-1 w-1/2">
+        <motion.div variants={slideInBottom} className="w-1/2 p-1 md:p-2">
           <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
             <Image
               src={b.src}
@@ -100,7 +100,7 @@ function MosaicBlock({
           </div>
         </motion.div>
 
-        <motion.div variants={slideInBottom} className="md:p-2 p-1 w-full">
+        <motion.div variants={slideInBottom} className="w-full p-1 md:p-2">
           <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
             <Image
               src={c.src}
@@ -115,7 +115,7 @@ function MosaicBlock({
 
       {/* Right Column - 50% width */}
       <div className="flex flex-wrap w-full md:w-1/2">
-        <motion.div variants={slideInBottom} className="md:p-2 p-1 w-full">
+        <motion.div variants={slideInBottom} className="w-full p-1 md:p-2">
           <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
             <Image
               src={d.src}
@@ -127,7 +127,7 @@ function MosaicBlock({
           </div>
         </motion.div>
 
-        <motion.div variants={slideInBottom} className="md:p-2 p-1 w-1/2">
+        <motion.div variants={slideInBottom} className="w-1/2 p-1 md:p-2">
           <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
             <Image
               src={e.src}
@@ -139,7 +139,7 @@ function MosaicBlock({
           </div>
         </motion.div>
 
-        <motion.div variants={slideInBottom} className="md:p-2 p-1 w-1/2">
+        <motion.div variants={slideInBottom} className="w-1/2 p-1 md:p-2">
           <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
             <Image
               src={f.src}
@@ -157,8 +157,8 @@ function MosaicBlock({
 
 export default function GalleryPage() {
   return (
-    <section className="py-16 sm:py-20 md:py-24 bg-linear-to-b from-gray-50 to-white w-full overflow-hidden">
-      <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16">
+    <section className="w-full overflow-hidden bg-linear-to-b from-gray-50 to-white">
+      <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16 max-w-7xl mx-auto pt-28 sm:pt-32 pb-16 sm:pb-20">
         {/* Heading */}
         <motion.div
           initial="hidden"

@@ -137,63 +137,64 @@ export default function Blogs() {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto"
         >
           {blogPosts.map((post) => (
-            <motion.article
+            <motion.div
               key={post.id}
               variants={slideInBottom}
-              className="group h-full flex flex-col rounded-2xl border-2 border-gray-200 hover:border-sky-300 bg-white overflow-hidden transition-colors duration-300 hover:shadow-xl"
+              className="h-full"
             >
+              {/* The ENTIRE card is now one Link — previously only the
+                  image, title, and "Read More" text were individually
+                  wrapped in separate <Link> tags, so clicking anywhere
+                  else on the card (padding, excerpt, category label)
+                  did nothing. A single Link wrapping the whole article
+                  fixes that; Next's <Link> can wrap block-level content
+                  directly without needing legacyBehavior. */}
               <Link
                 href={`/blogs/${post.slug}`}
-                className="relative aspect-16/10 overflow-hidden block"
+                className="group h-full flex flex-col rounded-2xl border-2 border-gray-200 hover:border-sky-300 bg-white overflow-hidden transition-colors duration-300 hover:shadow-xl"
               >
-                <Image
-                  src={post.image}
-                  alt={post.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition duration-700"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
-              </Link>
-
-              <div className="p-6 flex flex-col grow">
-                <p className="text-xs font-bold uppercase tracking-widest text-sky-500 mb-2">
-                  {post.category}
-                </p>
-
-                <h2 className="text-lg font-bold text-gray-900 leading-snug mb-3">
-                  <Link
-                    href={`/blogs/${post.slug}`}
-                    className="hover:text-sky-500 transition duration-300"
-                  >
-                    {post.title}
-                  </Link>
-                </h2>
-
-                <p className="text-sm text-gray-600 leading-relaxed mb-5 grow">
-                  {post.excerpt}
-                </p>
-
-                <div className="flex items-center flex-wrap gap-y-2 pt-4 border-t border-gray-100">
-                  <Link
-                    href={`/blogs/${post.slug}`}
-                    className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-sky-500 hover:text-sky-600 transition duration-300 group/link"
-                  >
-                    Read More
-                    <FaArrowRight className="w-3 h-3 transition-transform duration-300 group-hover/link:translate-x-1" />
-                  </Link>
-
-                  <span className="inline-flex items-center gap-1.5 text-xs text-gray-400 ml-auto pr-3 mr-3 border-r border-gray-200">
-                    <FaRegCalendar className="w-3 h-3" />
-                    {post.date}
-                  </span>
-
-                  <span className="inline-flex items-center gap-1.5 text-xs text-gray-400">
-                    <FaRegClock className="w-3 h-3" />
-                    {post.readTime}
-                  </span>
+                <div className="relative aspect-16/10 overflow-hidden">
+                  <Image
+                    src={post.image}
+                    alt={post.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition duration-700"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
                 </div>
-              </div>
-            </motion.article>
+
+                <div className="p-6 flex flex-col grow">
+                  <p className="text-xs font-bold uppercase tracking-widest text-sky-500 mb-2">
+                    {post.category}
+                  </p>
+
+                  <h2 className="text-lg font-bold text-gray-900 leading-snug mb-3 group-hover:text-sky-500 transition duration-300">
+                    {post.title}
+                  </h2>
+
+                  <p className="text-sm text-gray-600 leading-relaxed mb-5 grow">
+                    {post.excerpt}
+                  </p>
+
+                  <div className="flex items-center flex-wrap gap-y-2 pt-4 border-t border-gray-100">
+                    <span className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-sky-500">
+                      Read More
+                      <FaArrowRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" />
+                    </span>
+
+                    <span className="inline-flex items-center gap-1.5 text-xs text-gray-400 ml-auto pr-3 mr-3 border-r border-gray-200">
+                      <FaRegCalendar className="w-3 h-3" />
+                      {post.date}
+                    </span>
+
+                    <span className="inline-flex items-center gap-1.5 text-xs text-gray-400">
+                      <FaRegClock className="w-3 h-3" />
+                      {post.readTime}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
           ))}
         </motion.div>
       </div>
