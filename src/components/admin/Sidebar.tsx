@@ -129,7 +129,7 @@ const navSections: NavSection[] = [
         label: "Site Configuration",
         href: "/admin/dashboard/settings",
         icon: FiSettings,
-        enabled: false,
+        enabled: true,
       },
     ],
   },
