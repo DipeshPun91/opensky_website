@@ -37,6 +37,13 @@ function toBooking(doc: BookingDocument): Booking {
   };
 }
 
+function toObjectId(id: string): ObjectId {
+  if (!ObjectId.isValid(id)) {
+    throw new Error("Invalid booking id.");
+  }
+  return new ObjectId(id);
+}
+
 export async function createBooking(input: BookingInput): Promise<Booking> {
   const db = await getDb();
   const doc: Omit<BookingDocument, "_id"> = {
@@ -52,9 +59,6 @@ export async function createBooking(input: BookingInput): Promise<Booking> {
   return toBooking({ ...doc, _id: result.insertedId } as BookingDocument);
 }
 
-// For the future admin "Bookings" page (already listed, disabled, in the
-// sidebar under Contacts) — not wired to any UI yet, just here so that
-// page doesn't need a separate trip back to this file to add it later.
 export async function getAllBookings(): Promise<Booking[]> {
   const db = await getDb();
   const docs = await db
@@ -64,4 +68,28 @@ export async function getAllBookings(): Promise<Booking[]> {
     .toArray();
 
   return docs.map(toBooking);
+}
+
+export async function updateBookingStatus(
+  id: string,
+  status: BookingStatus,
+): Promise<Booking> {
+  const db = await getDb();
+  const result = await db
+    .collection<BookingDocument>("bookings")
+    .findOneAndUpdate(
+      { _id: toObjectId(id) },
+      { $set: { status } },
+      { returnDocument: "after" },
+    );
+
+  if (!result) throw new Error("Booking not found.");
+  return toBooking(result);
+}
+
+export async function deleteBooking(id: string): Promise<void> {
+  const db = await getDb();
+  await db.collection<BookingDocument>("bookings").deleteOne({
+    _id: toObjectId(id),
+  });
 }
