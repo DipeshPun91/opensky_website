@@ -75,7 +75,7 @@ const navSections: NavSection[] = [
         label: "Bookings",
         href: "/admin/dashboard/bookings",
         icon: FiMail,
-        enabled: false,
+        enabled: true,
       },
     ],
   },
