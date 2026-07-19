@@ -15,6 +15,12 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
     // Optional: Set image formats for optimization
     formats: ["image/avif", "image/webp"],
