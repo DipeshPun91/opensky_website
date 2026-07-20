@@ -3,10 +3,11 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FiImage } from "react-icons/fi";
+import { FiImage, FiUpload, FiX } from "react-icons/fi";
 import type { BlogPost } from "@/lib/blog-posts";
 import type { MediaItem } from "@/lib/media";
 import MediaPicker from "../MediaPicker";
+import RichTextEditor from "../../ui/RichTextEditor";
 
 interface FormState {
   title: string;
@@ -41,9 +42,6 @@ function toInitialState(post?: BlogPost | null): FormState {
     slug: post.slug,
     category: post.category,
     excerpt: post.excerpt,
-    // Paragraphs stored as string[] in the DB, joined back into one
-    // textarea with a blank line between each — the inverse of how the
-    // API route splits it back apart on save.
     content: post.content.join("\n\n"),
     image: post.image,
   };
@@ -63,15 +61,20 @@ export default function BlogPostForm({ post }: { post?: BlogPost | null }) {
     setForm((prev) => ({
       ...prev,
       title: value,
-      // Auto-fill the slug from the title until the admin edits the
-      // slug field directly — once touched, stop overwriting it, so
-      // manual edits are never silently clobbered by further typing.
       slug: slugTouched ? prev.slug : slugify(value),
     }));
   };
 
   const handleImageSelect = (item: MediaItem) => {
     setForm((prev) => ({ ...prev, image: item.url }));
+  };
+
+  const handleRemoveImage = () => {
+    setForm((prev) => ({ ...prev, image: "" }));
+  };
+
+  const handleContentChange = (html: string) => {
+    setForm((prev) => ({ ...prev, content: html }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -109,143 +112,195 @@ export default function BlogPostForm({ post }: { post?: BlogPost | null }) {
     <>
       <form onSubmit={handleSubmit} className="flex flex-col gap-6">
         {errorMessage && (
-          <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
+          <div className="rounded-xl border border-red-500/20 bg-red-500/5 px-5 py-3.5 text-sm text-red-400 backdrop-blur-sm">
             {errorMessage}
           </div>
         )}
 
-        <div className="rounded-xl border border-white/10 bg-gray-800/50 p-6 backdrop-blur-sm">
-          <h2 className="text-base font-semibold text-white">Featured Image</h2>
-          <p className="mt-1 text-xs text-gray-400">
-            Selected from your media library — no need to upload again.
-          </p>
+        {/* Featured Image */}
+        <div className="rounded-xl border border-white/10 bg-linear-to-br from-gray-900/60 to-gray-800/30 p-6 backdrop-blur-sm">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-base font-semibold text-white">
+                Featured Image
+              </h2>
+              <p className="mt-1 text-xs text-gray-400">
+                Select an image from your media library
+              </p>
+            </div>
+            {form.image && (
+              <button
+                type="button"
+                onClick={handleRemoveImage}
+                className="rounded-lg p-2 text-gray-400 transition hover:bg-red-500/10 hover:text-red-400"
+                aria-label="Remove image"
+              >
+                <FiX className="h-4 w-4" />
+              </button>
+            )}
+          </div>
 
-          <div className="mt-4 flex items-center gap-4">
-            <div className="relative h-24 w-32 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-gray-900/60">
-              {form.image ? (
+          {form.image ? (
+            // Image preview
+            <div className="mt-4">
+              <div className="relative h-32 w-48 overflow-hidden rounded-lg border border-white/10 bg-gray-900/60">
                 <Image
                   src={form.image}
-                  alt="Selected featured image"
+                  alt="Featured image"
                   fill
                   className="object-cover"
-                  sizes="128px"
+                  sizes="192px"
                 />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center text-gray-600">
-                  <FiImage className="h-6 w-6" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
+                <div className="absolute bottom-2 left-2 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setPickerOpen(true)}
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-white/10 px-2.5 py-1.5 text-xs font-medium text-white backdrop-blur-sm transition hover:bg-white/20"
+                  >
+                    <FiUpload className="h-3.5 w-3.5" />
+                    Change
+                  </button>
                 </div>
-              )}
+              </div>
             </div>
-
-            <button
-              type="button"
-              onClick={() => setPickerOpen(true)}
-              className="inline-flex items-center justify-center rounded-md border border-white/10 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-gray-300 transition hover:bg-white/5 hover:text-white"
-            >
-              {form.image ? "Change Image" : "Choose Image"}
-            </button>
-          </div>
+          ) : (
+            // Upload placeholder
+            <div className="mt-4">
+              <button
+                type="button"
+                onClick={() => setPickerOpen(true)}
+                className="group relative flex h-32 w-48 flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-white/10 bg-gray-900/40 transition hover:border-sky-500/50 hover:bg-gray-900/60"
+              >
+                <div className="rounded-full bg-sky-500/10 p-2.5 transition group-hover:bg-sky-500/20">
+                  <FiImage className="h-5 w-5 text-sky-400" />
+                </div>
+                <div className="text-center">
+                  <p className="text-xs font-medium text-white">Choose image</p>
+                  <p className="text-[10px] text-gray-400">Browse library</p>
+                </div>
+              </button>
+            </div>
+          )}
         </div>
 
-        <div className="rounded-xl border border-white/10 bg-gray-800/50 p-6 backdrop-blur-sm">
+        {/* Post Details */}
+        <div className="rounded-xl border border-white/10 bg-linear-to-br from-gray-900/60 to-gray-800/30 p-6 backdrop-blur-sm">
           <h2 className="text-base font-semibold text-white">Post Details</h2>
 
           <div className="mt-5 flex flex-col gap-4">
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-bold uppercase tracking-wide text-gray-400">
-                Title
-              </label>
-              <input
-                type="text"
-                required
-                value={form.title}
-                onChange={(e) => handleTitleChange(e.target.value)}
-                className="rounded-lg border border-white/10 bg-gray-900/60 px-4 py-2.5 text-sm text-white placeholder:text-gray-500 transition focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
-              />
+            {/*Title & Slug */}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold uppercase tracking-wide text-gray-400">
+                  Title
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={form.title}
+                  onChange={(e) => handleTitleChange(e.target.value)}
+                  className="rounded-lg border border-white/10 bg-gray-900/60 px-4 py-2.5 text-sm text-white placeholder:text-gray-500 transition focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
+                  placeholder="Enter post title..."
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold uppercase tracking-wide text-gray-400">
+                  Slug
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={form.slug}
+                  onChange={(e) => {
+                    setSlugTouched(true);
+                    setForm((prev) => ({ ...prev, slug: e.target.value }));
+                  }}
+                  className="rounded-lg border border-white/10 bg-gray-900/60 px-4 py-2.5 text-sm text-white placeholder:text-gray-500 transition focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
+                  placeholder="your-post-slug"
+                />
+                <p className="text-[11px] text-gray-500">
+                  /blogs/{form.slug || "your-slug-here"}
+                </p>
+              </div>
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-bold uppercase tracking-wide text-gray-400">
-                Slug
-              </label>
-              <input
-                type="text"
-                required
-                value={form.slug}
-                onChange={(e) => {
-                  setSlugTouched(true);
-                  setForm((prev) => ({ ...prev, slug: e.target.value }));
-                }}
-                className="rounded-lg border border-white/10 bg-gray-900/60 px-4 py-2.5 text-sm text-white placeholder:text-gray-500 transition focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
-              />
-              <p className="text-[11px] text-gray-500">
-                Used in the URL: /blogs/{form.slug || "your-slug-here"}
-              </p>
+            {/*Category */}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold uppercase tracking-wide text-gray-400">
+                  Category
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={form.category}
+                  onChange={(e) =>
+                    setForm((prev) => ({ ...prev, category: e.target.value }))
+                  }
+                  placeholder="e.g. Beginners Guide"
+                  className="rounded-lg border border-white/10 bg-gray-900/60 px-4 py-2.5 text-sm text-white placeholder:text-gray-500 transition focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
+                />
+              </div>
+              <div />
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-bold uppercase tracking-wide text-gray-400">
-                Category
-              </label>
-              <input
-                type="text"
-                required
-                value={form.category}
-                onChange={(e) =>
-                  setForm((prev) => ({ ...prev, category: e.target.value }))
-                }
-                placeholder="e.g. Beginners Guide"
-                className="rounded-lg border border-white/10 bg-gray-900/60 px-4 py-2.5 text-sm text-white placeholder:text-gray-500 transition focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
-              />
-            </div>
-
+            {/* Excerpt */}
             <div className="flex flex-col gap-1.5">
               <label className="text-xs font-bold uppercase tracking-wide text-gray-400">
                 Excerpt
               </label>
               <textarea
                 required
-                rows={2}
                 value={form.excerpt}
                 onChange={(e) =>
                   setForm((prev) => ({ ...prev, excerpt: e.target.value }))
                 }
                 placeholder="A one or two sentence summary shown on the blog listing page."
-                className="resize-none rounded-lg border border-white/10 bg-gray-900/60 px-4 py-2.5 text-sm text-white placeholder:text-gray-500 transition focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
+                className="w-full resize-none rounded-lg border border-white/10 bg-gray-900/60 px-4 py-2.5 text-sm text-white placeholder:text-gray-500 transition focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 overflow-hidden"
+                style={{ height: "auto", minHeight: "2.5rem" }}
+                onInput={(e) => {
+                  const target = e.target as HTMLTextAreaElement;
+                  target.style.height = "auto";
+                  target.style.height = target.scrollHeight + "px";
+                }}
+                rows={1}
               />
             </div>
 
+            {/* Content */}
             <div className="flex flex-col gap-1.5">
               <label className="text-xs font-bold uppercase tracking-wide text-gray-400">
                 Content
               </label>
-              <textarea
-                required
-                rows={12}
+              <RichTextEditor
                 value={form.content}
-                onChange={(e) =>
-                  setForm((prev) => ({ ...prev, content: e.target.value }))
-                }
-                placeholder={
-                  "First paragraph...\n\nSecond paragraph...\n\nThird paragraph..."
-                }
-                className="resize-y rounded-lg border border-white/10 bg-gray-900/60 px-4 py-2.5 text-sm leading-relaxed text-white placeholder:text-gray-500 transition focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
+                onChange={handleContentChange}
               />
               <p className="text-[11px] text-gray-500">
-                Leave a blank line between paragraphs — each one renders as its
-                own paragraph on the post page.
+                Use the toolbar to format your content.
               </p>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        {/* Submit Buttons */}
+        <div className="flex flex-wrap items-center gap-4">
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center justify-center rounded-md bg-sky-500 px-6 py-3 text-sm font-semibold uppercase tracking-[2px] text-white shadow-lg shadow-sky-500/30 transition-all duration-300 hover:bg-sky-600 hover:shadow-xl hover:shadow-sky-500/40 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center justify-center rounded-xl border-2 border-sky-500/50 px-8 py-3 text-sm font-semibold uppercase tracking-[2px] text-sky-400 transition-all duration-300 hover:border-sky-500 hover:bg-sky-500/10 hover:text-sky-300 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {saving ? "Saving..." : isEditing ? "Save Changes" : "Publish Post"}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => router.push("/admin/dashboard/blogs")}
+            className="inline-flex items-center justify-center rounded-xl border-2 border-red-500/50 px-6 py-3 text-sm font-semibold uppercase tracking-[2px] text-red-400 transition-all duration-300 hover:border-red-500 hover:bg-red-500/10 hover:text-red-300 hover:scale-105"
+          >
+            Cancel
           </button>
         </div>
       </form>

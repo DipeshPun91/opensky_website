@@ -23,7 +23,7 @@ export default async function BlogsPage() {
 
         <Link
           href="/admin/dashboard/blogs/new"
-          className="inline-flex items-center gap-2 rounded-md bg-sky-500 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-sky-600"
+          className="inline-flex items-center gap-2 rounded-xl border-2 border-sky-500/50 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-sky-400 transition-all duration-300 hover:border-sky-500 hover:bg-sky-500/10 hover:text-sky-300 hover:scale-105"
         >
           <FiPlus className="h-4 w-4" />
           New Post
