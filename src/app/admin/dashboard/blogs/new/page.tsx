@@ -1,8 +1,8 @@
-import BlogPostForm from "@/components/admin/BlogPostForm";
+import BlogForm from "@/components/admin/blogs/BlogForm";
 
 export default function NewBlogPostPage() {
   return (
-    <div className="max-w-3xl">
+    <div>
       <p className="mb-2 text-xs font-bold uppercase tracking-widest text-sky-500">
         Admin Panel
       </p>
@@ -13,7 +13,7 @@ export default function NewBlogPostPage() {
         Write a new blog post and publish it to your site.
       </p>
 
-      <BlogPostForm />
+      <BlogForm />
     </div>
   );
 }

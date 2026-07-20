@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { FiImage } from "react-icons/fi";
 import type { BlogPost } from "@/lib/blog-posts";
 import type { MediaItem } from "@/lib/media";
-import MediaPickerDialog from "./MediaPickerDialog";
+import MediaPicker from "../MediaPicker";
 
 interface FormState {
   title: string;
@@ -250,7 +250,7 @@ export default function BlogPostForm({ post }: { post?: BlogPost | null }) {
         </div>
       </form>
 
-      <MediaPickerDialog
+      <MediaPicker
         open={pickerOpen}
         onClose={() => setPickerOpen(false)}
         onSelect={handleImageSelect}

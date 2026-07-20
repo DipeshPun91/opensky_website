@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FiPlus } from "react-icons/fi";
 import { getAllBlogPosts } from "@/lib/blog-posts";
-import BlogPostsTable from "@/components/admin/BlogPostsTable";
+import BlogPosts from "@/components/admin/blogs/BlogPosts";
 
 export default async function BlogsPage() {
   const posts = await getAllBlogPosts();
@@ -30,7 +30,7 @@ export default async function BlogsPage() {
         </Link>
       </div>
 
-      <BlogPostsTable initialPosts={posts} />
+      <BlogPosts initialPosts={posts} />
     </div>
   );
 }

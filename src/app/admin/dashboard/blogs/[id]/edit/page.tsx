@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getBlogPostById } from "@/lib/blog-posts";
-import BlogPostForm from "@/components/admin/BlogPostForm";
+import BlogForm from "@/components/admin/blogs/BlogForm";
 
 interface EditBlogPostPageProps {
   params: Promise<{ id: string }>;
@@ -21,7 +21,7 @@ export default async function EditBlogPostPage({
   if (!post) notFound();
 
   return (
-    <div className="max-w-3xl">
+    <div>
       <p className="mb-2 text-xs font-bold uppercase tracking-widest text-sky-500">
         Admin Panel
       </p>
@@ -30,7 +30,7 @@ export default async function EditBlogPostPage({
       </h1>
       <p className="mb-8 text-sm text-gray-400">{post.title}</p>
 
-      <BlogPostForm post={post} />
+      <BlogForm post={post} />
     </div>
   );
 }
