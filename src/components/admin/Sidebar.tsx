@@ -87,7 +87,7 @@ const navSections: NavSection[] = [
         label: "Blogs",
         href: "/admin/dashboard/blogs",
         icon: FiBookOpen,
-        enabled: false,
+        enabled: true,
       },
       {
         label: "Gallery",
