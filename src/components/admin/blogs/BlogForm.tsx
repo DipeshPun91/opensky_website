@@ -290,7 +290,7 @@ export default function BlogPostForm({ post }: { post?: BlogPost | null }) {
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center justify-center rounded-xl border-2 border-sky-500/50 px-8 py-3 text-sm font-semibold uppercase tracking-[2px] text-sky-400 transition-all duration-300 hover:border-sky-500 hover:bg-sky-500/10 hover:text-sky-300 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-sky-500/20 px-4 py-2.5 text-sm font-medium text-sky-400 transition hover:border-sky-500 hover:bg-sky-500/10 hover:text-sky-300 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {saving ? "Saving..." : isEditing ? "Save Changes" : "Publish Post"}
           </button>
@@ -298,7 +298,7 @@ export default function BlogPostForm({ post }: { post?: BlogPost | null }) {
           <button
             type="button"
             onClick={() => router.push("/admin/dashboard/blogs")}
-            className="inline-flex items-center justify-center rounded-xl border-2 border-red-500/50 px-6 py-3 text-sm font-semibold uppercase tracking-[2px] text-red-400 transition-all duration-300 hover:border-red-500 hover:bg-red-500/10 hover:text-red-300 hover:scale-105"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 px-4 py-2.5 text-sm font-medium text-gray-400 transition hover:border-white/20 hover:bg-white/5 hover:text-white hover:scale-105"
           >
             Cancel
           </button>
