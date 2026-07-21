@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { FiMenu, FiBell, FiChevronDown, FiSearch } from "react-icons/fi";
-import LogoutButton from "./LogoutButton";
+import LogoutButton from "../admin/auth/LogoutButton";
 
 export default function Navbar({
   username,

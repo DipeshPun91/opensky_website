@@ -1,7 +1,7 @@
 // app/admin/dashboard/bookings/page.tsx
 import { FiCalendar, FiCheckCircle, FiClock, FiXCircle } from "react-icons/fi";
 import { getAllBookings } from "@/lib/bookings";
-import BookingsTable from "@/components/admin/BookingsTable";
+import BookingsTable from "@/components/admin/booking/BookingsTable";
 import Banner from "@/components/admin/Banner";
 import StatsBar from "@/components/admin/StatsBar";
 import Content from "@/components/admin/Content";

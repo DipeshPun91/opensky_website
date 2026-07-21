@@ -79,7 +79,7 @@ const sections: SectionDef[] = [
 
 type SaveStatus = "idle" | "saving";
 
-export default function SiteConfigForm({
+export default function SiteConfig({
   initialConfig,
 }: {
   initialConfig: SiteConfig;

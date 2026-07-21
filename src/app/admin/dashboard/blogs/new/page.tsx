@@ -1,19 +1,16 @@
+// app/admin/dashboard/blogs/new/page.tsx
 import BlogForm from "@/components/admin/blogs/BlogForm";
+import Banner from "@/components/admin/Banner";
+import Content from "@/components/admin/Content";
 
 export default function NewBlogPostPage() {
   return (
-    <div>
-      <p className="mb-2 text-xs font-bold uppercase tracking-widest text-sky-500">
-        Admin Panel
-      </p>
-      <h1 className="mb-1 text-2xl font-black uppercase text-white sm:text-3xl">
-        New Post
-      </h1>
-      <p className="mb-8 text-sm text-gray-400">
-        Write a new blog post and publish it to your site.
-      </p>
-
+    <Content>
+      <Banner
+        title="New Post"
+        description="Write a new blog post and publish it to your site."
+      />
       <BlogForm />
-    </div>
+    </Content>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
-import Sidebar from "./Sidebar";
-import Navbar from "./Navbar";
+import Sidebar from "../partials/Sidebar";
+import Navbar from "../partials/Navbar";
 
 export default function AdminShell({
   username,

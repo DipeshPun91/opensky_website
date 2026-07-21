@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import LoginForm from "@/components/admin/LoginForm";
+import LoginForm from "@/components/admin/auth/LoginForm";
 
 // Part of "hidden": tells search engines not to index or crawl this page.
 export const metadata: Metadata = {

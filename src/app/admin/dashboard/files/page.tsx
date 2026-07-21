@@ -7,7 +7,7 @@ import {
   FiImage,
 } from "react-icons/fi";
 import { getAllMedia } from "@/lib/media";
-import MediaGrid from "@/components/admin/MediaGrid";
+import MediaGrid from "@/components/admin/file/MediaGrid";
 import Banner from "@/components/admin/Banner";
 import StatsBar from "@/components/admin/StatsBar";
 import Content from "@/components/admin/Content";
