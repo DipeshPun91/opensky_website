@@ -1,6 +1,9 @@
+// app/admin/dashboard/members/[id]/edit/page.tsx
 import { notFound } from "next/navigation";
 import { getMemberById } from "@/lib/members";
 import MemberForm from "@/components/admin/member/MemberForm";
+import Banner from "@/components/admin/Banner";
+import Content from "@/components/admin/Content";
 
 interface EditMemberPageProps {
   params: Promise<{ id: string }>;
@@ -19,16 +22,10 @@ export default async function EditMemberPage({ params }: EditMemberPageProps) {
   if (!member) notFound();
 
   return (
-    <div className="max-w-2xl">
-      <p className="mb-2 text-xs font-bold uppercase tracking-widest text-sky-500">
-        Admin Panel
-      </p>
-      <h1 className="mb-1 text-2xl font-black uppercase text-white sm:text-3xl">
-        Edit Member
-      </h1>
-      <p className="mb-8 text-sm text-gray-400">{member.name}</p>
+    <Content>
+      <Banner title="Edit Member" description={`Editing ${member.name}`} />
 
       <MemberForm member={member} />
-    </div>
+    </Content>
   );
 }
