@@ -99,7 +99,7 @@ const navSections: NavSection[] = [
         label: "Members",
         href: "/admin/dashboard/members",
         icon: FiUsers,
-        enabled: false,
+        enabled: true,
       },
       {
         label: "Pages",
