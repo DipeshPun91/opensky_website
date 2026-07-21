@@ -1,1 +1,70 @@
 @import "tailwindcss";
+
+/*  Plain CSS for the rendered HTML body — not Tailwind `prose`
+    classes (see comment above). Light/white-background styling
+    here, unlike RichTextEditor.tsx's dark-mode version, since this
+    renders on the public site's white blog layout. */
+.blog-post-content {
+  color: #374151;
+  font-size: 0.9375rem;
+  line-height: 1.8;
+}
+@media (min-width: 640px) {
+  .blog-post-content {
+    font-size: 1rem;
+  }
+}
+.blog-post-content p {
+  margin: 0 0 1.25em;
+}
+.blog-post-content h2 {
+  margin: 1.6em 0 0.6em;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #111827;
+}
+.blog-post-content h3 {
+  margin: 1.4em 0 0.6em;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #111827;
+}
+.blog-post-content ul,
+.blog-post-content ol {
+  margin: 0 0 1.25em;
+  padding-left: 1.5em;
+}
+.blog-post-content ul {
+  list-style: disc;
+}
+.blog-post-content ol {
+  list-style: decimal;
+}
+.blog-post-content blockquote {
+  margin: 0 0 1.25em;
+  padding-left: 1.1em;
+  border-left: 3px solid #7dd3fc;
+  color: #6b7280;
+  font-style: italic;
+}
+.blog-post-content pre {
+  margin: 0 0 1.25em;
+  padding: 1rem 1.25rem;
+  border-radius: 0.6rem;
+  background: #111827;
+  color: #e5e7eb;
+  overflow-x: auto;
+  font-size: 0.85rem;
+}
+.blog-post-content code {
+  font-family: ui-monospace, monospace;
+}
+.blog-post-content a {
+  color: #0ea5e9;
+  text-decoration: underline;
+}
+.blog-post-content img {
+  max-width: 100%;
+  border-radius: 0.75rem;
+  margin: 1.5em 0;
+}
