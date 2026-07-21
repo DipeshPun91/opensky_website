@@ -93,7 +93,7 @@ const navSections: NavSection[] = [
         label: "Gallery",
         href: "/admin/dashboard/gallery",
         icon: FiImage,
-        enabled: false,
+        enabled: true,
       },
       {
         label: "Members",
