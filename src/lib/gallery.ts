@@ -1,3 +1,4 @@
+// lib/gallery.ts
 import { ObjectId } from "mongodb";
 import { getDb } from "./mongodb";
 
@@ -10,6 +11,7 @@ export interface GalleryItem extends GalleryItemInput {
   id: string;
   order: number;
   createdAt: string;
+  updatedAt: string;
 }
 
 // A concrete ObjectId type (rather than a vague custom shape) is what
@@ -20,11 +22,17 @@ interface GalleryItemDocument extends GalleryItemInput {
   _id: ObjectId;
   order: number;
   createdAt: Date;
+  updatedAt: Date; // Changed from string to Date to match MongoDB
 }
 
 function toGalleryItem(doc: GalleryItemDocument): GalleryItem {
-  const { _id, createdAt, ...rest } = doc;
-  return { ...rest, id: _id.toString(), createdAt: createdAt.toISOString() };
+  const { _id, createdAt, updatedAt, ...rest } = doc;
+  return {
+    ...rest,
+    id: _id.toString(),
+    createdAt: createdAt.toISOString(),
+    updatedAt: updatedAt ? updatedAt.toISOString() : createdAt.toISOString(),
+  };
 }
 
 function toObjectId(id: string): ObjectId {
@@ -54,10 +62,12 @@ export async function createGalleryItem(
   const last = await collection.find({}).sort({ order: -1 }).limit(1).toArray();
   const nextOrder = last.length > 0 ? last[0].order + 1 : 0;
 
+  const now = new Date();
   const doc: Omit<GalleryItemDocument, "_id"> = {
     ...input,
     order: nextOrder,
-    createdAt: new Date(),
+    createdAt: now,
+    updatedAt: now,
   };
 
   const result = await collection.insertOne(doc as GalleryItemDocument);
@@ -74,7 +84,12 @@ export async function updateGalleryItemCaption(
   const collection = await galleryCollection();
   const result = await collection.findOneAndUpdate(
     { _id: toObjectId(id) },
-    { $set: { caption } },
+    {
+      $set: {
+        caption,
+        updatedAt: new Date(),
+      },
+    },
     { returnDocument: "after" },
   );
   if (!result) throw new Error("Gallery item not found.");

@@ -1,36 +1,60 @@
-import Link from "next/link";
-import { FiPlus } from "react-icons/fi";
+// app/admin/dashboard/blogs/page.tsx
+import {
+  FiPlus,
+  FiFileText,
+  FiCheckCircle,
+  FiClock,
+  FiTag,
+} from "react-icons/fi";
 import { getAllBlogPosts } from "@/lib/blog-posts";
 import BlogPosts from "@/components/admin/blogs/BlogPosts";
+import Banner from "@/components/admin/Banner";
+import StatsBar from "@/components/admin/StatsBar";
+import Content from "@/components/admin/Content";
+import { countCategories } from "@/lib/utils";
 
 export default async function BlogsPage() {
   const posts = await getAllBlogPosts();
 
+  const published = posts.length;
+  const drafts = 0;
+
+  const stats = [
+    {
+      label: "Total Posts",
+      value: posts.length,
+      icon: <FiFileText className="h-3.5 w-3.5" />,
+    },
+    {
+      label: "Published",
+      value: published,
+      icon: <FiCheckCircle className="h-3.5 w-3.5" />,
+    },
+    {
+      label: "Drafts",
+      value: drafts,
+      icon: <FiClock className="h-3.5 w-3.5" />,
+    },
+    {
+      label: "Categories",
+      value: countCategories(posts),
+      icon: <FiTag className="h-3.5 w-3.5" />,
+    },
+  ];
+
   return (
-    <div>
-      <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <p className="mb-2 text-xs font-bold uppercase tracking-widest text-sky-500">
-            Admin Panel
-          </p>
-          <h1 className="mb-1 text-2xl font-black uppercase text-white sm:text-3xl">
-            Blogs
-          </h1>
-          <p className="text-sm text-gray-400">
-            Create, edit, and remove blog posts.
-          </p>
-        </div>
-
-        <Link
-          href="/admin/dashboard/blogs/new"
-          className="inline-flex items-center gap-2 rounded-xl border-2 border-sky-500/50 px-5 py-2.5 text-sm font-semibold uppercase tracking-wide text-sky-400 transition-all duration-300 hover:border-sky-500 hover:bg-sky-500/10 hover:text-sky-300 hover:scale-105"
-        >
-          <FiPlus className="h-4 w-4" />
-          New Post
-        </Link>
-      </div>
-
+    <Content>
+      <Banner
+        title="Blogs"
+        description="Create, edit, and remove blog posts."
+        action={{
+          label: "New Post",
+          href: "/admin/dashboard/blogs/new",
+          icon: <FiPlus className="h-4 w-4" />,
+        }}
+      />
+      <StatsBar stats={stats} />
       <BlogPosts initialPosts={posts} />
-    </div>
+    </Content>
   );
 }
