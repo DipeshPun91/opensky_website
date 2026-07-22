@@ -1,6 +1,6 @@
 import { getAllGalleryItems } from "@/lib/gallery";
 import GalleryMosaic from "@/components/guest/gallery/GalleryMosaic";
-import Seperator from "@/components/ui/Seperator";
+import Separator from "@/components/ui/Seperator";
 
 // Server component — reads directly from MongoDB via lib/gallery.ts
 // instead of a hardcoded, tripled Unsplash array. Order matches
@@ -12,10 +12,9 @@ export default async function GalleryPage() {
   const items = await getAllGalleryItems();
 
   return (
-    <section className="w-full overflow-hidden bg-linear-to-b from-gray-50 to-white">
-      <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16 max-w-7xl mx-auto pt-28 sm:pt-32 pb-16 sm:pb-20">
-        {/* Heading */}
-        <div className="text-center mb-12 sm:mb-16 max-w-3xl mx-auto">
+    <section className="py-16 sm:py-20 md:py-24 bg-white w-full overflow-hidden">
+      <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16">
+        <div className="text-center max-w-4xl mx-auto">
           <p className="uppercase tracking-[4px] text-xs sm:text-sm text-sky-500 font-medium">
             Gallery
           </p>
@@ -24,15 +23,17 @@ export default async function GalleryPage() {
             Full Gallery
           </h1>
 
-          <Seperator />
+          <Separator />
 
-          <p className="mt-6 max-w-2xl mx-auto text-gray-600 leading-7 sm:leading-8 text-sm sm:text-base">
+          <p className="mt-8 text-gray-600 leading-7 sm:leading-8 text-sm sm:text-base text-left sm:text-center">
             A closer look at the skies, the valley, and the flights that brought
             people back to Open Sky again and again.
           </p>
         </div>
 
-        <GalleryMosaic items={items} />
+        <div className="mt-12 sm:mt-16">
+          <GalleryMosaic items={items} />
+        </div>
       </div>
     </section>
   );
