@@ -2,18 +2,12 @@ import { getAllGalleryItems } from "@/lib/gallery";
 import GalleryMosaic from "@/components/guest/gallery/GalleryMosaic";
 import Separator from "@/components/ui/Seperator";
 
-// Server component — reads directly from MongoDB via lib/gallery.ts
-// instead of a hardcoded, tripled Unsplash array. Order matches
-// whatever's set in /admin/dashboard/gallery. The animated mosaic
-// itself lives in GalleryMosaic (client component, since Framer
-// Motion's motion.* requires "use client") — this file no longer needs
-// to be a client component now that the data isn't hardcoded.
 export default async function GalleryPage() {
   const items = await getAllGalleryItems();
 
   return (
     <section className="py-16 sm:py-20 md:py-24 bg-white w-full overflow-hidden">
-      <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16">
+      <div className="w-full px-6 sm:px-10 lg:px-16">
         <div className="text-center max-w-4xl mx-auto">
           <p className="uppercase tracking-[4px] text-xs sm:text-sm text-sky-500 font-medium">
             Gallery
