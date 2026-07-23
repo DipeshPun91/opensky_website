@@ -34,7 +34,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   return (
     <article className="w-full overflow-hidden bg-white">
       {/* Added bottom padding to match header spacing */}
-      <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16 max-w-7xl mx-auto pt-28 sm:pt-32 pb-16 sm:pb-20">
+      <div className="w-full px-6 sm:px-10 lg:px-16 pt-28 sm:pt-32 pb-16 sm:pb-20">
         {/* Back link */}
         <div className="mb-8">
           <Link
@@ -47,9 +47,9 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         </div>
 
         {/* Main Content + Sidebar Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-          {/* Left: Main Content - 8 columns on large screens */}
-          <div className="lg:col-span-8">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
+          {/* Left: Main Content - ~66% width */}
+          <div className="lg:w-2/3">
             {/* Header */}
             <header className="mb-8">
               <p className="text-xs font-bold uppercase tracking-widest text-sky-500 mb-3">
@@ -103,105 +103,103 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             />
           </div>
 
-          {/* Right: Sidebar - 4 columns on large screens */}
-          <aside className="lg:col-span-4">
-            <div className="sticky top-32">
-              {otherBlogs.length > 0 && (
-                <>
-                  {/* Sidebar Title */}
-                  <div className="mb-6">
-                    <h2 className="text-xl font-black uppercase text-gray-900 flex items-center gap-2">
-                      <span className="h-1 w-8 bg-sky-500 rounded-full"></span>
-                      More Blogs
-                    </h2>
-                    <p className="text-sm text-gray-500 mt-1">
-                      Explore more articles from our blog
-                    </p>
-                  </div>
-
-                  {/* Other Blogs List */}
-                  <div className="space-y-4">
-                    {otherBlogs.map((blog) => (
-                      <Link
-                        key={blog.id}
-                        href={`/blogs/${blog.slug}`}
-                        className="group flex gap-4 p-3 rounded-xl hover:bg-gray-50 transition-all duration-300 border border-transparent hover:border-gray-200"
-                      >
-                        {/* Thumbnail */}
-                        <div className="relative w-24 h-24 shrink-0 rounded-lg overflow-hidden">
-                          <Image
-                            src={blog.image}
-                            alt={blog.title}
-                            fill
-                            className="object-cover group-hover:scale-110 transition duration-500"
-                            sizes="96px"
-                          />
-                        </div>
-
-                        {/* Content */}
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-bold uppercase tracking-widest text-sky-500 mb-1">
-                            {blog.category}
-                          </p>
-                          <h3 className="text-sm font-bold text-gray-900 leading-snug group-hover:text-sky-500 transition duration-300 line-clamp-2">
-                            {blog.title}
-                          </h3>
-                          <div className="flex items-center gap-3 mt-1.5 text-xs text-gray-400">
-                            <span className="inline-flex items-center gap-1">
-                              <FaRegCalendar className="h-2.5 w-2.5" />
-                              {blog.date}
-                            </span>
-                            <span className="inline-flex items-center gap-1">
-                              <FaRegClock className="h-2.5 w-2.5" />
-                              {blog.readTime}
-                            </span>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </>
-              )}
-
-              {/* CTA Card */}
-              <div className="mt-8 p-6 bg-linear-to-br from-sky-50 to-blue-50 rounded-2xl border border-sky-100">
-                <div className="text-center">
-                  <h3 className="text-lg font-black uppercase text-gray-900 mb-2">
-                    Ready to Fly?
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Book your paragliding experience in Pokhara today
+          {/* Right: Sidebar - ~33% width */}
+          <div className="lg:w-1/3 lg:sticky lg:top-32">
+            {otherBlogs.length > 0 && (
+              <>
+                {/* Sidebar Title */}
+                <div className="mb-6">
+                  <h2 className="text-xl font-black uppercase text-gray-900 flex items-center gap-2">
+                    <span className="h-1 w-8 bg-sky-500 rounded-full"></span>
+                    More Blogs
+                  </h2>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Explore more articles from our blog
                   </p>
-                  <Link
-                    href="/contact"
-                    className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white px-6 py-3 rounded-lg font-bold uppercase tracking-wide text-sm transition-all duration-300 shadow-lg shadow-sky-500/30 hover:shadow-xl hover:shadow-sky-500/40"
-                  >
-                    Book Now
-                    <FaArrowRight className="h-3 w-3" />
-                  </Link>
+                </div>
+
+                {/* Other Blogs List */}
+                <div className="space-y-4">
+                  {otherBlogs.map((blog) => (
+                    <Link
+                      key={blog.id}
+                      href={`/blogs/${blog.slug}`}
+                      className="group flex gap-4 p-3 rounded-xl hover:bg-gray-50 transition-all duration-300 border border-transparent hover:border-gray-200"
+                    >
+                      {/* Thumbnail */}
+                      <div className="relative w-24 h-24 shrink-0 rounded-lg overflow-hidden">
+                        <Image
+                          src={blog.image}
+                          alt={blog.title}
+                          fill
+                          className="object-cover group-hover:scale-110 transition duration-500"
+                          sizes="96px"
+                        />
+                      </div>
+
+                      {/* Content */}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-bold uppercase tracking-widest text-sky-500 mb-1">
+                          {blog.category}
+                        </p>
+                        <h3 className="text-sm font-bold text-gray-900 leading-snug group-hover:text-sky-500 transition duration-300 line-clamp-2">
+                          {blog.title}
+                        </h3>
+                        <div className="flex items-center gap-3 mt-1.5 text-xs text-gray-400">
+                          <span className="inline-flex items-center gap-1">
+                            <FaRegCalendar className="h-2.5 w-2.5" />
+                            {blog.date}
+                          </span>
+                          <span className="inline-flex items-center gap-1">
+                            <FaRegClock className="h-2.5 w-2.5" />
+                            {blog.readTime}
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {/* CTA Card */}
+            <div className="mt-8 p-6 bg-linear-to-br from-sky-50 to-blue-50 rounded-2xl border border-sky-100">
+              <div className="text-center">
+                <h3 className="text-lg font-black uppercase text-gray-900 mb-2">
+                  Ready to Fly?
+                </h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Book your paragliding experience in Pokhara today
+                </p>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white px-6 py-3 rounded-lg font-bold uppercase tracking-wide text-sm transition-all duration-300 shadow-lg shadow-sky-500/30 hover:shadow-xl hover:shadow-sky-500/40"
+                >
+                  Book Now
+                  <FaArrowRight className="h-3 w-3" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Categories Section */}
+            {categories.length > 0 && (
+              <div className="mt-6 p-6 bg-gray-50 rounded-2xl">
+                <h3 className="text-sm font-black uppercase text-gray-900 mb-3">
+                  Categories
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {categories.map((category) => (
+                    <span
+                      key={category}
+                      className="text-xs font-medium px-3 py-1 bg-white rounded-full text-gray-700 border border-gray-200"
+                    >
+                      {category}
+                    </span>
+                  ))}
                 </div>
               </div>
-
-              {/* Categories Section */}
-              {categories.length > 0 && (
-                <div className="mt-6 p-6 bg-gray-50 rounded-2xl">
-                  <h3 className="text-sm font-black uppercase text-gray-900 mb-3">
-                    Categories
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {categories.map((category) => (
-                      <span
-                        key={category}
-                        className="text-xs font-medium px-3 py-1 bg-white rounded-full text-gray-700 border border-gray-200"
-                      >
-                        {category}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </aside>
+            )}
+          </div>
         </div>
       </div>
     </article>

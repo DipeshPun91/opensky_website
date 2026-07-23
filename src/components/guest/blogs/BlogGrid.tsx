@@ -12,7 +12,7 @@ const blogGrid = createStaggerContainer(0.1, 0.15);
 export default function BlogGrid({ posts }: { posts: BlogPost[] }) {
   if (posts.length === 0) {
     return (
-      <p className="max-w-7xl mx-auto text-center text-gray-500">
+      <p className="text-center text-gray-500">
         No posts published yet — check back soon.
       </p>
     );
@@ -24,7 +24,7 @@ export default function BlogGrid({ posts }: { posts: BlogPost[] }) {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true }}
-      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto"
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
     >
       {posts.map((post) => (
         <motion.div key={post.id} variants={slideInBottom} className="h-full">
