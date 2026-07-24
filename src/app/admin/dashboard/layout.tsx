@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { verifySessionToken, SESSION_COOKIE_NAME } from "@/lib/auth";
+import { verifySessionToken, SESSION_COOKIE_NAME } from "@/lib/auth/auth";
 import AdminShell from "@/components/admin/AdminShell";
 
 export const metadata: Metadata = {

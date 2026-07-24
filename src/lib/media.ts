@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { getDb } from "./mongodb";
+import { getDb } from "./db/mongodb";
 
 export interface MediaInput {
   publicId: string;

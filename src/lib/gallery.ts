@@ -1,6 +1,6 @@
 // lib/gallery.ts
 import { ObjectId } from "mongodb";
-import { getDb } from "./mongodb";
+import { getDb } from "./db/mongodb";
 
 export interface GalleryItemInput {
   imageUrl: string;

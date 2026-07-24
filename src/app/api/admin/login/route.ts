@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/mongodb";
-import { verifyPassword } from "@/lib/password";
+import { getDb } from "@/lib/db/mongodb";
+import { verifyPassword } from "@/lib/auth/password";
 import {
   createSessionToken,
   SESSION_COOKIE_NAME,
   SESSION_MAX_AGE_SECONDS,
-} from "@/lib/auth";
+} from "@/lib/auth/auth";
 import { ObjectId } from "mongodb";
 
 interface AdminDocument {

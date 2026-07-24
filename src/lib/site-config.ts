@@ -1,4 +1,4 @@
-import { getDb } from "./mongodb";
+import { getDb } from "./db/mongodb";
 
 export interface SiteConfig {
   // Branding

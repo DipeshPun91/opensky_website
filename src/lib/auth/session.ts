@@ -4,7 +4,7 @@ import {
   verifySessionToken,
   SESSION_COOKIE_NAME,
   type AdminSessionPayload,
-} from "./auth";
+} from "./auth/auth";
 
 // This file is DELIBERATELY separate from lib/auth.ts. It uses
 // cookies() from next/headers, which only works in Server Components /
