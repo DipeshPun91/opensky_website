@@ -9,7 +9,7 @@ import {
   slideInBottom,
   createStaggerContainer,
 } from "@/lib/animations";
-import Seperator from "../ui/Seperator";
+import Seperator from "../../ui/Seperator";
 
 const flights = [
   {

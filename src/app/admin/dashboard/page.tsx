@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAdminSession } from "@/lib/session";
+import { getAdminSession } from "@/lib/auth/session";
 import { getAllBookings } from "@/lib/bookings";
 import { getAllBlogPosts } from "@/lib/blog-posts";
 import { getAllGalleryItems } from "@/lib/gallery";

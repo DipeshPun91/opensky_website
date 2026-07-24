@@ -10,7 +10,7 @@ import {
   createStaggerContainer,
   EASE,
 } from "@/lib/animations";
-import Seperator from "../ui/Seperator";
+import Seperator from "../../ui/Seperator";
 
 const testimonials = [
   {

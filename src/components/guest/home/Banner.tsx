@@ -11,7 +11,7 @@ import {
   useReducedMotion,
   type MotionValue,
 } from "framer-motion";
-import Lightfall from "../ui/Lightfall";
+import Lightfall from "../../ui/Lightfall";
 
 interface ArchCoordinates {
   x: number;

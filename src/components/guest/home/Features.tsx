@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import Separator from "../ui/Seperator";
+import Separator from "../../ui/Seperator";
 import {
   container,
   riseIn,
