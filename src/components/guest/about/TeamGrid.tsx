@@ -30,7 +30,7 @@ export default function TeamGrid({ members }: { members: Member[] }) {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true }}
-      className="flex flex-wrap -m-4 max-w-7xl mx-auto"
+      className="flex flex-wrap -m-4"
     >
       {members.map((member) => {
         // lib/members.ts always stores facebook/instagram as strings
