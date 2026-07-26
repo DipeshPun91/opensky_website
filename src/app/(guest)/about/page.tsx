@@ -61,7 +61,7 @@ export default async function About() {
           {/* Hero Content with Image */}
           <div className="mt-10 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Image - Reduced height */}
-            <div className="relative w-full aspect-[3/2] rounded-2xl overflow-hidden bg-gray-100 order-2 lg:order-1 shadow-lg">
+            <div className="relative w-full aspect-3/2 rounded-2xl overflow-hidden bg-gray-100 order-2 lg:order-1 shadow-lg">
               <Image
                 src="https://images.unsplash.com/photo-1620720970374-5b7e67e1e610?w=800&auto=format&fit=crop&crop=center"
                 alt="Paragliding above Pokhara"
@@ -160,7 +160,7 @@ export default async function About() {
                   key={value.title}
                   className="group flex items-start gap-4 p-4 rounded-xl bg-white hover:bg-sky-50 transition-all duration-300 border border-gray-100 hover:border-sky-200"
                 >
-                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-sky-100 text-sky-600 group-hover:bg-sky-500 group-hover:text-white flex items-center justify-center transition-all duration-300">
+                  <div className="shrink-0 w-10 h-10 rounded-lg bg-sky-100 text-sky-600 group-hover:bg-sky-500 group-hover:text-white flex items-center justify-center transition-all duration-300">
                     <value.icon className="h-5 w-5" />
                   </div>
                   <div className="flex-1 min-w-0">

@@ -2,17 +2,15 @@ import { getDb } from "./db/mongodb";
 
 export interface SiteConfig {
   // Branding
-  siteName: string;
+  logoUrl: string; // Cloudinary URL, selected via the media library
+  siteNamePrimary: string; // e.g. "OPEN" — accent-colored half of the logo text
+  siteNameSecondary: string; // e.g. "SKY" — the other half
   tagline: string;
-  // Hero section (Banner.tsx)
-  heroEyebrow: string;
-  heroTitleLine1: string;
-  heroTitleLine2: string;
-  heroDescription: string;
   // Contact info (Contact.tsx)
   contactPhone: string;
   contactEmail: string;
   contactAddress: string;
+  whatsapp: string;
   // Social links
   socialFacebook: string;
   socialInstagram: string;
@@ -28,16 +26,14 @@ interface SiteConfigDocument extends SiteConfig {
 const CONFIG_DOC_ID = "site-config";
 
 export const DEFAULT_SITE_CONFIG: SiteConfig = {
-  siteName: "OpenSky",
+  logoUrl: "",
+  siteNamePrimary: "OPEN",
+  siteNameSecondary: "SKY",
   tagline: "Paragliding Adventures",
-  heroEyebrow: "Ready For Adventure?",
-  heroTitleLine1: "Soar Above",
-  heroTitleLine2: "The Himalayas",
-  heroDescription:
-    "Experience the ultimate freedom of tandem paragliding over Pokhara Valley, Phewa Lake, and the majestic Annapurna range with our certified expert pilots.",
   contactPhone: "+977 9846212425",
   contactEmail: "openskyparagliding@gmail.com",
   contactAddress: "Pokhara-6, Hallan Chowk, Kaski, 33700, Nepal",
+  whatsapp: "+977 9846212425",
   socialFacebook: "https://www.facebook.com/openskyparagliding",
   socialInstagram: "https://www.instagram.com/openskyparagliding/",
   mapLat: 28.215617709578726,
