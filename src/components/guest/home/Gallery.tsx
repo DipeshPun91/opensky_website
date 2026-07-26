@@ -27,10 +27,6 @@ function createPlaceholderItem(index: number): GalleryItem {
   };
 }
 
-// Takes real curated images as a prop instead of a hardcoded array.
-// The DB fetch (getAllGalleryItems()) happens wherever this component
-// is rendered — this stays a single, "use client" file so it can keep
-// using Framer Motion directly, same as the original.
 export default function Gallery({ items }: { items: GalleryItem[] }) {
   const displayItems = Array.isArray(items) && items.length > 0 ? items : [];
   const safeItems = [
@@ -51,7 +47,8 @@ export default function Gallery({ items }: { items: GalleryItem[] }) {
       variants={container}
       className="py-16 sm:py-20 md:py-24 bg-linear-to-b from-gray-50 to-white w-full overflow-hidden"
     >
-      <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16">
+      {/* EXACT same padding as header and gallery page */}
+      <div className="w-full px-6 sm:px-10 lg:px-16">
         {/* Heading */}
         <motion.div
           variants={riseIn}
@@ -77,19 +74,17 @@ export default function Gallery({ items }: { items: GalleryItem[] }) {
           </motion.p>
         </motion.div>
 
-        {/* Gallery Grid — mirrored mosaic: left column is two tiles then one
-            full-width image, right column is one full-width image then two
-            tiles, so the two columns visually zigzag against each other. */}
+        {/* Gallery Grid - EXACT same pattern as GalleryMosaic */}
         <motion.div
           variants={galleryContainer}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="flex flex-wrap max-w-7xl mx-auto md:-m-2 -m-1"
+          className="flex flex-wrap w-full max-w-7xl mx-auto"
         >
           {/* Left Column - 50% width */}
           <div className="flex flex-wrap w-full md:w-1/2">
-            <motion.div variants={slideInBottom} className="md:p-2 p-1 w-1/2">
+            <motion.div variants={slideInBottom} className="w-1/2 p-1 md:p-2">
               <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
                 <Image
                   src={b.imageUrl || FALLBACK_IMAGE}
@@ -101,7 +96,7 @@ export default function Gallery({ items }: { items: GalleryItem[] }) {
               </div>
             </motion.div>
 
-            <motion.div variants={slideInBottom} className="md:p-2 p-1 w-1/2">
+            <motion.div variants={slideInBottom} className="w-1/2 p-1 md:p-2">
               <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
                 <Image
                   src={c.imageUrl || FALLBACK_IMAGE}
@@ -113,7 +108,7 @@ export default function Gallery({ items }: { items: GalleryItem[] }) {
               </div>
             </motion.div>
 
-            <motion.div variants={slideInBottom} className="md:p-2 p-1 w-full">
+            <motion.div variants={slideInBottom} className="w-full p-1 md:p-2">
               <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
                 <Image
                   src={a.imageUrl || FALLBACK_IMAGE}
@@ -128,7 +123,7 @@ export default function Gallery({ items }: { items: GalleryItem[] }) {
 
           {/* Right Column - 50% width */}
           <div className="flex flex-wrap w-full md:w-1/2">
-            <motion.div variants={slideInBottom} className="md:p-2 p-1 w-full">
+            <motion.div variants={slideInBottom} className="w-full p-1 md:p-2">
               <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
                 <Image
                   src={d.imageUrl || FALLBACK_IMAGE}
@@ -140,7 +135,7 @@ export default function Gallery({ items }: { items: GalleryItem[] }) {
               </div>
             </motion.div>
 
-            <motion.div variants={slideInBottom} className="md:p-2 p-1 w-1/2">
+            <motion.div variants={slideInBottom} className="w-1/2 p-1 md:p-2">
               <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
                 <Image
                   src={e.imageUrl || FALLBACK_IMAGE}
@@ -152,7 +147,7 @@ export default function Gallery({ items }: { items: GalleryItem[] }) {
               </div>
             </motion.div>
 
-            <motion.div variants={slideInBottom} className="md:p-2 p-1 w-1/2">
+            <motion.div variants={slideInBottom} className="w-1/2 p-1 md:p-2">
               <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
                 <Image
                   src={f.imageUrl || FALLBACK_IMAGE}
@@ -166,8 +161,7 @@ export default function Gallery({ items }: { items: GalleryItem[] }) {
           </div>
         </motion.div>
 
-        {/* CTA Button — previously had no href/onClick at all, a dead
-            button. Now links to the full gallery page. */}
+        {/* CTA Button */}
         <motion.div
           variants={riseIn}
           className="mt-12 sm:mt-16 flex justify-center max-w-7xl mx-auto"

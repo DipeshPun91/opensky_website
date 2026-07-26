@@ -25,7 +25,7 @@ export default function Feature() {
       variants={container}
       className="py-16 sm:py-20 md:py-24 bg-linear-to-b from-gray-50 to-white w-full overflow-hidden"
     >
-      <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16">
+      <div className="w-full px-6 sm:px-10 lg:px-16">
         {/* Heading */}
         <motion.div
           variants={riseIn}
@@ -197,6 +197,7 @@ export default function Feature() {
               alt="Paragliding above Pokhara"
               fill
               className="object-cover transition duration-700 group-hover:scale-110"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent"></div>
             <motion.div
@@ -227,6 +228,7 @@ export default function Feature() {
               alt="Tandem paragliding pilot over Pokhara"
               fill
               className="object-cover transition duration-700 group-hover:scale-110"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent"></div>
             <motion.div

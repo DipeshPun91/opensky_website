@@ -62,7 +62,7 @@ export default function FlightPackages() {
       variants={container}
       className="py-16 sm:py-20 md:py-24 bg-linear-to-b from-gray-50 to-white w-full overflow-hidden"
     >
-      <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16">
+      <div className="w-full px-6 sm:px-10 lg:px-16">
         {/* Heading */}
         <motion.div
           variants={riseIn}
@@ -135,6 +135,7 @@ export default function FlightPackages() {
                   alt={flight.title}
                   fill
                   className="object-cover transition duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/25 via-transparent to-transparent" />
 
