@@ -1,3 +1,4 @@
+// app/gallery/page.tsx
 import { getAllGalleryItems } from "@/lib/gallery";
 import GalleryMosaic from "@/components/guest/gallery/GalleryMosaic";
 import Separator from "@/components/ui/Seperator";

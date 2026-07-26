@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   container,
@@ -10,43 +11,38 @@ import {
   EASE,
 } from "@/lib/animations";
 import Seperator from "../../ui/Seperator";
-
-const galleryImages = [
-  {
-    id: 1,
-    src: "https://images.unsplash.com/photo-1620720970374-5b7e67e1e610?w=800&auto=format&fit=crop&crop=center",
-    alt: "Paragliding over mountains",
-  },
-  {
-    id: 2,
-    src: "https://images.unsplash.com/photo-1530007874544-a6f7674b5a47?w=600&auto=format&fit=crop&crop=center",
-    alt: "Paraglider flying",
-  },
-  {
-    id: 3,
-    src: "https://images.unsplash.com/photo-1607815705213-104c87ea8d0f?w=600&auto=format&fit=crop&crop=center",
-    alt: "Tandem paragliding",
-  },
-  {
-    id: 4,
-    src: "https://plus.unsplash.com/premium_photo-1666797173828-e93427443e3b?w=800&auto=format&fit=crop&crop=center",
-    alt: "Paragliding above Pokhara",
-  },
-  {
-    id: 5,
-    src: "https://images.unsplash.com/photo-1677856216675-a397a342cdd2?w=600&auto=format&fit=crop&crop=center",
-    alt: "Sunset paragliding",
-  },
-  {
-    id: 6,
-    src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&crop=center",
-    alt: "Professional pilot",
-  },
-];
+import type { GalleryItem } from "@/lib/gallery";
 
 const galleryContainer = createStaggerContainer(0.1, 0.1);
+const FALLBACK_IMAGE = "/images/background.png";
 
-export default function Gallery() {
+function createPlaceholderItem(index: number): GalleryItem {
+  return {
+    id: `placeholder-${index}`,
+    imageUrl: FALLBACK_IMAGE,
+    caption: "Adventure gallery coming soon",
+    order: index,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+// Takes real curated images as a prop instead of a hardcoded array.
+// The DB fetch (getAllGalleryItems()) happens wherever this component
+// is rendered — this stays a single, "use client" file so it can keep
+// using Framer Motion directly, same as the original.
+export default function Gallery({ items }: { items: GalleryItem[] }) {
+  const displayItems = Array.isArray(items) && items.length > 0 ? items : [];
+  const safeItems = [
+    ...displayItems.slice(0, 6),
+    ...Array.from(
+      { length: Math.max(0, 6 - displayItems.length) },
+      (_, index) => createPlaceholderItem(index),
+    ),
+  ].slice(0, 6);
+
+  const [a, b, c, d, e, f] = safeItems;
+
   return (
     <motion.section
       initial="hidden"
@@ -96,8 +92,8 @@ export default function Gallery() {
             <motion.div variants={slideInBottom} className="md:p-2 p-1 w-1/2">
               <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
                 <Image
-                  src={galleryImages[1].src}
-                  alt={galleryImages[1].alt}
+                  src={b.imageUrl || FALLBACK_IMAGE}
+                  alt={b.caption || "Gallery image"}
                   fill
                   className="object-cover hover:scale-105 transition duration-700"
                   sizes="(max-width: 768px) 50vw, 25vw"
@@ -108,8 +104,8 @@ export default function Gallery() {
             <motion.div variants={slideInBottom} className="md:p-2 p-1 w-1/2">
               <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
                 <Image
-                  src={galleryImages[2].src}
-                  alt={galleryImages[2].alt}
+                  src={c.imageUrl || FALLBACK_IMAGE}
+                  alt={c.caption || "Gallery image"}
                   fill
                   className="object-cover hover:scale-105 transition duration-700"
                   sizes="(max-width: 768px) 50vw, 25vw"
@@ -120,8 +116,8 @@ export default function Gallery() {
             <motion.div variants={slideInBottom} className="md:p-2 p-1 w-full">
               <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
                 <Image
-                  src={galleryImages[0].src}
-                  alt={galleryImages[0].alt}
+                  src={a.imageUrl || FALLBACK_IMAGE}
+                  alt={a.caption || "Gallery image"}
                   fill
                   className="object-cover hover:scale-105 transition duration-700"
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -135,8 +131,8 @@ export default function Gallery() {
             <motion.div variants={slideInBottom} className="md:p-2 p-1 w-full">
               <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
                 <Image
-                  src={galleryImages[3].src}
-                  alt={galleryImages[3].alt}
+                  src={d.imageUrl || FALLBACK_IMAGE}
+                  alt={d.caption || "Gallery image"}
                   fill
                   className="object-cover hover:scale-105 transition duration-700"
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -147,8 +143,8 @@ export default function Gallery() {
             <motion.div variants={slideInBottom} className="md:p-2 p-1 w-1/2">
               <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
                 <Image
-                  src={galleryImages[4].src}
-                  alt={galleryImages[4].alt}
+                  src={e.imageUrl || FALLBACK_IMAGE}
+                  alt={e.caption || "Gallery image"}
                   fill
                   className="object-cover hover:scale-105 transition duration-700"
                   sizes="(max-width: 768px) 50vw, 25vw"
@@ -159,8 +155,8 @@ export default function Gallery() {
             <motion.div variants={slideInBottom} className="md:p-2 p-1 w-1/2">
               <div className="relative aspect-5/3 overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition duration-300">
                 <Image
-                  src={galleryImages[5].src}
-                  alt={galleryImages[5].alt}
+                  src={f.imageUrl || FALLBACK_IMAGE}
+                  alt={f.caption || "Gallery image"}
                   fill
                   className="object-cover hover:scale-105 transition duration-700"
                   sizes="(max-width: 768px) 50vw, 25vw"
@@ -170,37 +166,40 @@ export default function Gallery() {
           </div>
         </motion.div>
 
-        {/* CTA Button */}
+        {/* CTA Button — previously had no href/onClick at all, a dead
+            button. Now links to the full gallery page. */}
         <motion.div
           variants={riseIn}
           className="mt-12 sm:mt-16 flex justify-center max-w-7xl mx-auto"
         >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ duration: 0.3, ease: EASE }}
-            className="inline-flex items-center gap-2 rounded-md bg-sky-500 hover:bg-sky-600 transition-all duration-300 text-white px-5 sm:px-6 py-2.5 sm:py-3 font-semibold uppercase tracking-[2px] shadow-lg shadow-sky-500/30 hover:shadow-xl hover:shadow-sky-500/40 group text-xs sm:text-sm"
-          >
-            View Full Gallery
+          <Link href="/gallery">
             <motion.span
-              animate={{ x: [0, 4, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.3, ease: EASE }}
+              className="inline-flex items-center gap-2 rounded-md bg-sky-500 hover:bg-sky-600 transition-all duration-300 text-white px-5 sm:px-6 py-2.5 sm:py-3 font-semibold uppercase tracking-[2px] shadow-lg shadow-sky-500/30 hover:shadow-xl hover:shadow-sky-500/40 group text-xs sm:text-sm"
             >
-              <svg
-                className="w-4 h-4 ml-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              View Full Gallery
+              <motion.span
+                animate={{ x: [0, 4, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+                <svg
+                  className="w-4 h-4 ml-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </motion.span>
             </motion.span>
-          </motion.button>
+          </Link>
         </motion.div>
       </div>
     </motion.section>

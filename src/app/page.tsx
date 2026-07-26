@@ -7,11 +7,20 @@ import FlightPackages from "@/components/guest/home/FlightPackages";
 import Banner from "@/components/guest/home/Banner";
 import HowItWorks from "@/components/guest/home/HowItWorks";
 import Testimonials from "@/components/guest/home/Testimonials";
-import Video from "@/components/guest/home/Video";
 import Cta from "@/components/guest/home/Cta";
 import Footer from "@/components/partials/Footer";
+import Gallery from "@/components/guest/home/Gallery";
+import { getAllGalleryItems, type GalleryItem } from "@/lib/gallery";
 
-export default function Home() {
+export default async function Home() {
+  let galleryItems: GalleryItem[] = [];
+
+  try {
+    galleryItems = await getAllGalleryItems();
+  } catch (error) {
+    console.error("Failed to load gallery items for the home page", error);
+  }
+
   return (
     <>
       <Header />
@@ -23,7 +32,7 @@ export default function Home() {
       <Banner />
       <HowItWorks />
       <Testimonials />
-      <Video />
+      <Gallery items={galleryItems} />
       <Cta />
       <Footer />
     </>
