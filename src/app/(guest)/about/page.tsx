@@ -60,13 +60,15 @@ export default async function About() {
 
           {/* Hero Content with Image */}
           <div className="mt-10 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Image */}
-            <div className="relative w-full aspect-4/3 rounded-2xl overflow-hidden bg-gray-100 order-2 lg:order-1 shadow-lg">
+            {/* Image - Reduced height */}
+            <div className="relative w-full aspect-[3/2] rounded-2xl overflow-hidden bg-gray-100 order-2 lg:order-1 shadow-lg">
               <Image
-                src="https://images.unsplash.com/photo-1620720970374-5b7e67e1e610?w=600&auto=format&fit=crop&crop=center"
+                src="https://images.unsplash.com/photo-1620720970374-5b7e67e1e610?w=800&auto=format&fit=crop&crop=center"
                 alt="Paragliding above Pokhara"
                 fill
-                className="object-cover transition duration-700 group-hover:scale-110"
+                className="object-cover transition duration-700"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
               />
             </div>
 
@@ -104,7 +106,7 @@ export default async function About() {
         </div>
       </section>
 
-      {/* Mission Section */}
+      {/* Mission Section - Redesigned with better cards */}
       <section className="py-16 sm:py-20 md:py-24 bg-gray-50 w-full overflow-hidden">
         <div className="w-full px-6 sm:px-10 lg:px-16">
           <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
@@ -123,10 +125,10 @@ export default async function About() {
             <Separator />
           </div>
 
-          {/* Mission Content with Image */}
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Text Content */}
-            <div className="space-y-6">
+          {/* Mission Content with Values Cards - Improved Layout */}
+          <div className="grid lg:grid-cols-5 gap-8 lg:gap-10 items-start">
+            {/* Text Content - Takes 3/5 of the space */}
+            <div className="lg:col-span-3 space-y-6">
               <p className="text-gray-600 leading-relaxed">
                 Paragliding in Pokhara offers a once-in-a-lifetime opportunity
                 to discover some of the most spectacular scenery on earth. We
@@ -151,62 +153,33 @@ export default async function About() {
               </div>
             </div>
 
-            {/* Image */}
-            <div className="relative w-full aspect-4/3 rounded-2xl overflow-hidden bg-gray-100 shadow-lg">
-              <Image
-                src="https://images.unsplash.com/photo-1607815705213-104c87ea8d0f?w=600&auto=format&fit=crop&crop=center"
-                alt="Tandem paragliding pilot over Pokhara"
-                fill
-                className="object-cover transition duration-700 group-hover:scale-110"
-              />
+            {/* Values Cards - Takes 2/5 of the space */}
+            <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+              {values.map((value) => (
+                <div
+                  key={value.title}
+                  className="group flex items-start gap-4 p-4 rounded-xl bg-white hover:bg-sky-50 transition-all duration-300 border border-gray-100 hover:border-sky-200"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-sky-100 text-sky-600 group-hover:bg-sky-500 group-hover:text-white flex items-center justify-center transition-all duration-300">
+                    <value.icon className="h-5 w-5" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-sm font-semibold text-gray-900">
+                      {value.title}
+                    </h4>
+                    <p className="text-xs text-gray-500 leading-relaxed mt-0.5">
+                      {value.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Values Section */}
-      <section className="py-16 sm:py-20 md:py-24 bg-white w-full overflow-hidden">
-        <div className="w-full px-6 sm:px-10 lg:px-16">
-          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-            <p className="uppercase tracking-[4px] text-xs sm:text-sm text-sky-500 font-medium">
-              Why Fly With Us
-            </p>
-
-            <h2 className="mt-3 sm:mt-4 text-3xl sm:text-4xl md:text-5xl font-black uppercase leading-tight text-gray-900">
-              Our Values
-            </h2>
-
-            <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
-              What makes Open Sky your trusted paragliding partner
-            </p>
-
-            <Separator />
-          </div>
-
-          {/* Values Grid - Full Width */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((value) => (
-              <div
-                key={value.title}
-                className="group bg-gray-50 hover:bg-sky-50 rounded-2xl p-6 border border-gray-200 hover:border-sky-200 transition duration-300 text-center"
-              >
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-sky-500 text-white mx-auto group-hover:scale-105 transition duration-300">
-                  <value.icon className="h-6 w-6" />
-                </div>
-                <h4 className="mt-4 text-lg font-bold text-gray-900">
-                  {value.title}
-                </h4>
-                <p className="mt-1 text-sm text-gray-500 leading-relaxed">
-                  {value.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
-      <section className="py-16 sm:py-20 md:py-24 bg-gray-50 w-full overflow-hidden border-y border-gray-100">
+      <section className="py-16 sm:py-20 md:py-24 bg-white w-full overflow-hidden border-y border-gray-100">
         <div className="w-full px-6 sm:px-10 lg:px-16">
           <div className="text-center max-w-3xl mx-auto">
             <p className="uppercase tracking-[4px] text-xs sm:text-sm text-sky-500 font-medium">
@@ -244,7 +217,7 @@ export default async function About() {
       </section>
 
       {/* Team Section */}
-      <section className="py-16 sm:py-20 md:py-24 bg-white w-full overflow-hidden">
+      <section className="py-16 sm:py-20 md:py-24 bg-gray-50 w-full overflow-hidden">
         <div className="w-full px-6 sm:px-10 lg:px-16">
           <div className="text-center mb-12 sm:mb-16 max-w-3xl mx-auto">
             <p className="uppercase tracking-[4px] text-xs sm:text-sm text-sky-500 font-medium">
