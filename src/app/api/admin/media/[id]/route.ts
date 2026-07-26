@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAdminSession } from "@/lib/session";
+import { getAdminSession } from "@/lib/auth/session";
 import cloudinary from "@/lib/cloudinary";
 import { getMediaById, deleteMediaRecord } from "@/lib/media";
 

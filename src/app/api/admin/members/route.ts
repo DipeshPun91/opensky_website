@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAdminSession } from "@/lib/session";
+import { getAdminSession } from "@/lib/auth/session";
 import { getAllMembers, createMember, type MemberInput } from "@/lib/members";
 
 function validateInput(body: Record<string, unknown>): {
