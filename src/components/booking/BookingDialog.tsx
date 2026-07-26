@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { FaPaperPlane, FaTimes } from "react-icons/fa";
+import { useScrollLock } from "@/hooks/useScrollLock";
 
 interface BookingFormState {
   name: string;
@@ -36,22 +37,7 @@ export default function BookingDialog({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Close on Escape, and lock page scroll while the dialog is open.
-  useEffect(() => {
-    if (!open) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = originalOverflow;
-    };
-  }, [open, onClose]);
+  useScrollLock(open);
 
   // Reset back to a fresh form shortly after the dialog fully closes.
   useEffect(() => {
@@ -103,7 +89,7 @@ export default function BookingDialog({
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-end"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -113,18 +99,24 @@ export default function BookingDialog({
             className="absolute inset-0 bg-gray-900/60 backdrop-blur-sm"
             onClick={onClose}
             aria-hidden="true"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           />
 
-          {/* Dialog */}
+          {/* Dialog - Full height on right side */}
           <motion.div
             role="dialog"
             aria-modal="true"
             aria-labelledby="booking-dialog-title"
-            initial={{ opacity: 0, y: 24, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 24, scale: 0.97 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className="relative z-10 w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-6 sm:p-8 shadow-2xl"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{
+              duration: 0.3,
+              ease: [0.22, 1, 0.36, 1], // Custom easing for smooth slide
+            }}
+            className="relative z-10 w-full max-w-lg h-full bg-white p-6 sm:p-8 shadow-2xl overflow-y-auto"
           >
             <button
               type="button"
@@ -136,7 +128,7 @@ export default function BookingDialog({
             </button>
 
             {status === "success" ? (
-              <div className="py-10 text-center">
+              <div className="py-10 text-center flex flex-col items-center justify-center min-h-[60vh]">
                 <h3 className="text-xl font-black uppercase text-gray-900">
                   Request Sent
                 </h3>
