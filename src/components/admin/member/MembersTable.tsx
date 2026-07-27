@@ -11,12 +11,14 @@ import {
   FiUser,
 } from "react-icons/fi";
 import type { Member } from "@/lib/members";
+import { useToast } from "@/providers/ToastProvider"; // Add this import
 
 export default function MembersTable({
   initialMembers,
 }: {
   initialMembers: Member[];
 }) {
+  const { showSuccess, showError } = useToast(); // Add this
   const [members, setMembers] = useState<Member[]>(initialMembers);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [busyIds, setBusyIds] = useState<Set<string>>(new Set());
@@ -47,12 +49,24 @@ export default function MembersTable({
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         setErrorMessage(data.error || "Could not remove that member.");
+        showError(
+          data.error || "Could not remove that member.",
+          "The member could not be deleted",
+        );
         return;
       }
 
       setMembers((prev) => prev.filter((m) => m.id !== member.id));
+      showSuccess(
+        "Member removed successfully!",
+        `${member.name} has been removed from the team.`,
+      );
     } catch {
       setErrorMessage("Could not reach the server. Please try again.");
+      showError(
+        "Could not reach the server. Please try again.",
+        "Please check your internet connection",
+      );
     } finally {
       setBusy(member.id, false);
     }
@@ -86,10 +100,23 @@ export default function MembersTable({
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         setErrorMessage(data.error || "Could not reorder.");
+        showError(
+          data.error || "Could not reorder.",
+          "The member order could not be updated",
+        );
         setMembers(members);
+      } else {
+        showSuccess(
+          "Order updated!",
+          `${member.name} moved ${direction === "up" ? "up" : "down"} in the list.`,
+        );
       }
     } catch {
       setErrorMessage("Could not reach the server. Please try again.");
+      showError(
+        "Could not reach the server. Please try again.",
+        "Please check your internet connection",
+      );
       setMembers(members);
     } finally {
       setBusy(member.id, false);

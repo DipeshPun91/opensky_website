@@ -8,6 +8,7 @@ import type { Member } from "@/lib/members";
 import type { MediaItem } from "@/lib/media";
 import MediaPicker from "../MediaPicker";
 import RichTextEditor from "../../ui/RichTextEditor";
+import { useToast } from "@/providers/ToastProvider"; // Add this import
 
 interface FormState {
   name: string;
@@ -41,6 +42,7 @@ function toInitialState(member?: Member | null): FormState {
 
 export default function MemberForm({ member }: { member?: Member | null }) {
   const router = useRouter();
+  const { showSuccess, showError } = useToast(); // Add this
   const isEditing = Boolean(member);
 
   const [form, setForm] = useState<FormState>(toInitialState(member));
@@ -81,14 +83,31 @@ export default function MemberForm({ member }: { member?: Member | null }) {
 
       if (!res.ok) {
         setErrorMessage(data.error || "Could not save this member.");
+        showError(
+          data.error || "Could not save this member.",
+          "Please check your input and try again",
+        );
         setSaving(false);
         return;
       }
+
+      showSuccess(
+        isEditing
+          ? "Member updated successfully!"
+          : "Member added successfully!",
+        isEditing
+          ? `${form.name}'s profile has been updated.`
+          : `${form.name} has been added to the team.`,
+      );
 
       router.push("/admin/dashboard/members");
       router.refresh();
     } catch {
       setErrorMessage("Could not reach the server. Please try again.");
+      showError(
+        "Could not reach the server. Please try again.",
+        "Please check your internet connection",
+      );
       setSaving(false);
     }
   };
@@ -111,14 +130,27 @@ export default function MemberForm({ member }: { member?: Member | null }) {
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         setErrorMessage(data.error || "Could not delete member.");
+        showError(
+          data.error || "Could not delete member.",
+          "The member could not be removed",
+        );
         setSaving(false);
         return;
       }
+
+      showSuccess(
+        "Member deleted successfully!",
+        `${member?.name} has been removed from the team.`,
+      );
 
       router.push("/admin/dashboard/members");
       router.refresh();
     } catch {
       setErrorMessage("Could not reach the server. Please try again.");
+      showError(
+        "Could not reach the server. Please try again.",
+        "Please check your internet connection",
+      );
       setSaving(false);
     }
   };
