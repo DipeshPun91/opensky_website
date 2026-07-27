@@ -1,3 +1,4 @@
+// components/guest/about/TeamGrid.tsx
 "use client";
 
 import Image from "next/image";
@@ -20,8 +21,50 @@ function getInitials(name: string) {
 }
 
 export default function TeamGrid({ members }: { members: Member[] }) {
-  if (members.length === 0) {
-    return <p className="text-center text-gray-500">Team info coming soon.</p>;
+  // Show beautiful empty state when no members exist
+  if (!members || members.length === 0) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-center py-16"
+      >
+        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-linear-to-br from-sky-50 to-blue-50 border border-sky-100/50 mb-4 shadow-sm">
+          <svg
+            className="w-10 h-10 text-sky-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+            />
+          </svg>
+        </div>
+        <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+          Our Team Coming Soon
+        </h3>
+        <p className="text-gray-500 max-w-sm mx-auto">
+          We&apos;re assembling our expert team of pilots. Check back soon to
+          meet the professionals who will take you to the skies.
+        </p>
+        <div className="mt-6 flex justify-center gap-2">
+          {[...Array(3)].map((_, i) => (
+            <div
+              key={i}
+              className="w-1.5 h-1.5 rounded-full bg-sky-200"
+              style={{
+                animation: `pulse 2s ease-in-out ${i * 0.3}s infinite`,
+              }}
+            />
+          ))}
+        </div>
+      </motion.div>
+    );
   }
 
   return (
@@ -33,12 +76,8 @@ export default function TeamGrid({ members }: { members: Member[] }) {
       className="flex flex-wrap -m-4"
     >
       {members.map((member) => {
-        // lib/members.ts always stores facebook/instagram as strings
-        // (empty string when unset), not undefined like the old dummy
-        // data — so presence is checked against "" rather than a
-        // truthy/falsy optional-field check.
-        const hasFacebook = member.facebook !== "";
-        const hasInstagram = member.instagram !== "";
+        const hasFacebook = member.facebook && member.facebook !== "";
+        const hasInstagram = member.instagram && member.instagram !== "";
 
         return (
           <motion.div
@@ -57,7 +96,7 @@ export default function TeamGrid({ members }: { members: Member[] }) {
                     sizes="192px"
                   />
                 ) : (
-                  <div className="absolute inset-0 flex items-center justify-center bg-sky-500">
+                  <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-sky-400 to-blue-500">
                     <span className="text-4xl font-black text-white uppercase">
                       {getInitials(member.name)}
                     </span>

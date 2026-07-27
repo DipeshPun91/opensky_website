@@ -1,3 +1,4 @@
+// app/about/page.tsx
 import Separator from "@/components/ui/Seperator";
 import { getAllMembers } from "@/lib/members";
 import TeamGrid from "@/components/guest/about/TeamGrid";
@@ -9,9 +10,16 @@ import {
   FaClock,
   FaPaperPlane,
 } from "react-icons/fa";
+import type { Member } from "@/lib/members";
 
 export default async function About() {
-  const members = await getAllMembers();
+  let members: Member[] = [];
+
+  try {
+    members = await getAllMembers();
+  } catch (error) {
+    console.error("Failed to load team members", error);
+  }
 
   const values = [
     {
