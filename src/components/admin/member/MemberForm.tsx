@@ -8,7 +8,8 @@ import type { Member } from "@/lib/members";
 import type { MediaItem } from "@/lib/media";
 import MediaPicker from "../MediaPicker";
 import RichTextEditor from "../../ui/RichTextEditor";
-import { useToast } from "@/providers/ToastProvider"; // Add this import
+import { useToast } from "@/providers/ToastProvider";
+import ConfirmDialog from "@/components/ui/ConfirmDialog"; // Add this import
 
 interface FormState {
   name: string;
@@ -42,13 +43,22 @@ function toInitialState(member?: Member | null): FormState {
 
 export default function MemberForm({ member }: { member?: Member | null }) {
   const router = useRouter();
-  const { showSuccess, showError } = useToast(); // Add this
+  const { showSuccess, showError } = useToast();
   const isEditing = Boolean(member);
 
   const [form, setForm] = useState<FormState>(toInitialState(member));
   const [pickerOpen, setPickerOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Delete dialog state
+  const [deleteDialog, setDeleteDialog] = useState<{
+    isOpen: boolean;
+    isLoading: boolean;
+  }>({
+    isOpen: false,
+    isLoading: false,
+  });
 
   const handleImageSelect = (item: MediaItem) => {
     setForm((prev) => ({ ...prev, image: item.url }));
@@ -112,18 +122,24 @@ export default function MemberForm({ member }: { member?: Member | null }) {
     }
   };
 
-  const handleDelete = async () => {
-    if (!isEditing) return;
-    const confirmed = window.confirm(
-      `Are you sure you want to delete ${member?.name}? This action cannot be undone.`,
-    );
-    if (!confirmed) return;
+  // Open delete confirmation dialog
+  const handleDeleteClick = () => {
+    setDeleteDialog({
+      isOpen: true,
+      isLoading: false,
+    });
+  };
 
+  // Handle actual deletion
+  const handleConfirmDelete = async () => {
+    if (!isEditing || !member) return;
+
+    setDeleteDialog((prev) => ({ ...prev, isLoading: true }));
     setSaving(true);
     setErrorMessage(null);
 
     try {
-      const res = await fetch(`/api/admin/members/${member!.id}`, {
+      const res = await fetch(`/api/admin/members/${member.id}`, {
         method: "DELETE",
       });
 
@@ -134,15 +150,17 @@ export default function MemberForm({ member }: { member?: Member | null }) {
           data.error || "Could not delete member.",
           "The member could not be removed",
         );
+        setDeleteDialog({ isOpen: false, isLoading: false });
         setSaving(false);
         return;
       }
 
       showSuccess(
         "Member deleted successfully!",
-        `${member?.name} has been removed from the team.`,
+        `${member.name} has been removed from the team.`,
       );
 
+      setDeleteDialog({ isOpen: false, isLoading: false });
       router.push("/admin/dashboard/members");
       router.refresh();
     } catch {
@@ -151,7 +169,14 @@ export default function MemberForm({ member }: { member?: Member | null }) {
         "Could not reach the server. Please try again.",
         "Please check your internet connection",
       );
+      setDeleteDialog({ isOpen: false, isLoading: false });
       setSaving(false);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    if (!deleteDialog.isLoading) {
+      setDeleteDialog({ isOpen: false, isLoading: false });
     }
   };
 
@@ -342,7 +367,7 @@ export default function MemberForm({ member }: { member?: Member | null }) {
           {isEditing && (
             <button
               type="button"
-              onClick={handleDelete}
+              onClick={handleDeleteClick}
               disabled={saving}
               className="inline-flex items-center justify-center gap-2 rounded-xl border border-red-500/20 px-4 py-2.5 text-sm font-medium text-red-400 transition hover:border-red-500 hover:bg-red-500/10 hover:text-red-300 hover:scale-105 disabled:cursor-not-allowed disabled:opacity-60"
             >
@@ -357,6 +382,19 @@ export default function MemberForm({ member }: { member?: Member | null }) {
         open={pickerOpen}
         onClose={() => setPickerOpen(false)}
         onSelect={handleImageSelect}
+      />
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={deleteDialog.isOpen}
+        onClose={handleDeleteCancel}
+        onConfirm={handleConfirmDelete}
+        title="Delete Team Member"
+        message={`Are you sure you want to delete "${member?.name}"? This action cannot be undone.`}
+        confirmLabel="Delete Member"
+        cancelLabel="Cancel"
+        variant="danger"
+        isLoading={deleteDialog.isLoading}
       />
     </>
   );
