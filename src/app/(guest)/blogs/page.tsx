@@ -1,9 +1,17 @@
+// app/blogs/page.tsx
 import { getAllBlogPosts } from "@/lib/blog-posts";
 import BlogGrid from "@/components/guest/blogs/BlogGrid";
 import Separator from "@/components/ui/Seperator";
+import type { BlogPost } from "@/lib/blog-posts";
 
 export default async function Blogs() {
-  const posts = await getAllBlogPosts();
+  let posts: BlogPost[] = [];
+
+  try {
+    posts = await getAllBlogPosts();
+  } catch (error) {
+    console.error("Failed to load blog posts", error);
+  }
 
   return (
     <section className="py-16 sm:py-20 md:py-24 bg-white w-full overflow-hidden">

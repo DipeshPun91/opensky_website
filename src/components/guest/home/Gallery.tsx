@@ -172,7 +172,7 @@ export default function Gallery({
     );
   }
 
-  // If no items, show empty state
+  // If no items, show beautiful empty state
   if (safeItems.length === 0) {
     return (
       <motion.section
@@ -205,13 +205,70 @@ export default function Gallery({
             </motion.p>
           </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center text-gray-500 py-12"
+          {/* Beautiful Empty State */}
+          <motion.div
+            variants={slideInBottom}
+            className="max-w-3xl mx-auto text-center py-12 sm:py-16"
           >
-            No gallery images yet — check back soon.
-          </motion.p>
+            {/* Icon */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.4, ease: "easeOut" }}
+              className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-linear-to-br from-sky-50 to-blue-50 border border-sky-100/50 mb-6 shadow-sm"
+            >
+              <svg
+                className="w-10 h-10 text-sky-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                />
+              </svg>
+            </motion.div>
+
+            <motion.h3
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.4 }}
+              className="text-2xl sm:text-3xl font-bold text-gray-800 mb-3"
+            >
+              No Adventures Captured Yet
+            </motion.h3>
+
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35, duration: 0.4 }}
+              className="text-gray-500 max-w-md mx-auto text-sm leading-relaxed"
+            >
+              We&apos;re currently curating our best moments. Check back soon to
+              explore the beauty of Pokhara Valley through our lens.
+            </motion.p>
+
+            {/* Decorative dots */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="mt-8 flex justify-center gap-2"
+            >
+              {[...Array(3)].map((_, i) => (
+                <div
+                  key={i}
+                  className="w-1.5 h-1.5 rounded-full bg-sky-200"
+                  style={{
+                    animation: `pulse 2s ease-in-out ${i * 0.3}s infinite`,
+                  }}
+                />
+              ))}
+            </motion.div>
+          </motion.div>
         </div>
       </motion.section>
     );
