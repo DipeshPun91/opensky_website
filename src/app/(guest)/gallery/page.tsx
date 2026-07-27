@@ -2,9 +2,16 @@
 import { getAllGalleryItems } from "@/lib/gallery";
 import GalleryMosaic from "@/components/guest/gallery/GalleryMosaic";
 import Separator from "@/components/ui/Seperator";
+import type { GalleryItem } from "@/lib/gallery";
 
 export default async function GalleryPage() {
-  const items = await getAllGalleryItems();
+  let items: GalleryItem[] = [];
+
+  try {
+    items = await getAllGalleryItems();
+  } catch (error) {
+    console.error("Failed to load gallery items", error);
+  }
 
   return (
     <section className="py-16 sm:py-20 md:py-24 bg-white w-full overflow-hidden">

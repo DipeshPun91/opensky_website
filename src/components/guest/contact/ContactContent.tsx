@@ -1,3 +1,4 @@
+// components/guest/contact/ContactContent.tsx
 "use client";
 
 import Link from "next/link";
@@ -9,6 +10,7 @@ import {
   FaFacebookF,
   FaInstagram,
   FaPaperPlane,
+  FaWhatsapp,
 } from "react-icons/fa";
 import { container, riseIn, slideInBottom } from "@/lib/animations";
 import Separator from "@/components/ui/Seperator";
@@ -30,27 +32,40 @@ export default function ContactContent({ config }: { config: SiteConfig }) {
     {
       icon: FaPhone,
       label: "Round the clock support",
-      value: config.contactPhone,
-      href: `tel:${config.contactPhone.replace(/\s+/g, "")}`,
+      value: config.contactPhone || "N/A",
+      href: config.contactPhone
+        ? `tel:${config.contactPhone.replace(/\s+/g, "")}`
+        : "#",
     },
     {
       icon: FaEnvelope,
       label: "For any questions",
-      value: config.contactEmail,
-      href: `mailto:${config.contactEmail}`,
+      value: config.contactEmail || "N/A",
+      href: config.contactEmail ? `mailto:${config.contactEmail}` : "#",
     },
     {
       icon: FaMapMarkerAlt,
       label: "Find us here",
-      value: config.contactAddress,
+      value: config.contactAddress || "N/A",
       href: `https://www.google.com/maps?q=${config.mapLat},${config.mapLng}`,
     },
   ];
 
+  // Add WhatsApp if available
+  if (config.whatsapp) {
+    const whatsappNumber = config.whatsapp.replace(/\s+/g, "");
+    contactDetails.push({
+      icon: FaWhatsapp,
+      label: "Chat on WhatsApp",
+      value: config.whatsapp,
+      href: `https://wa.me/${whatsappNumber}`,
+    });
+  }
+
   const socialLinks = [
     { icon: FaFacebookF, href: config.socialFacebook, label: "Facebook" },
     { icon: FaInstagram, href: config.socialInstagram, label: "Instagram" },
-  ].filter((social) => social.href);
+  ].filter((social) => social.href && social.href !== "");
 
   return (
     <motion.section
@@ -93,19 +108,28 @@ export default function ContactContent({ config }: { config: SiteConfig }) {
           {/* Left: map */}
           <motion.div
             variants={slideInBottom}
-            className="relative w-full aspect-4/3 sm:aspect-16/10 lg:aspect-auto lg:h-full min-h-80 overflow-hidden rounded-2xl shadow-lg"
+            className="relative w-full aspect-4/3 sm:aspect-16/10 lg:aspect-auto lg:h-full min-h-80 overflow-hidden rounded-2xl shadow-lg bg-gray-100"
           >
-            <iframe
-              src={mapEmbedSrc}
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title={`${config.siteName} location`}
-              className="absolute inset-0"
-            />
+            {config.mapLat && config.mapLng ? (
+              <iframe
+                src={mapEmbedSrc}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title={`${config.siteNamePrimary || "Open Sky"} location`}
+                className="absolute inset-0"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                <div className="text-center">
+                  <FaMapMarkerAlt className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                  <p className="text-gray-400">Location map unavailable</p>
+                </div>
+              </div>
+            )}
           </motion.div>
 
           {/* Right: contact details */}
@@ -120,7 +144,14 @@ export default function ContactContent({ config }: { config: SiteConfig }) {
                     ? "noopener noreferrer"
                     : undefined
                 }
-                className="group flex items-start gap-4 rounded-2xl bg-gray-50 hover:bg-sky-50 p-4 sm:p-5 transition duration-300"
+                className={`group flex items-start gap-4 rounded-2xl bg-gray-50 hover:bg-sky-50 p-4 sm:p-5 transition duration-300 ${
+                  detail.href === "#" ? "cursor-default opacity-70" : ""
+                }`}
+                onClick={(e) => {
+                  if (detail.href === "#") {
+                    e.preventDefault();
+                  }
+                }}
               >
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sky-500 text-white group-hover:scale-105 transition duration-300">
                   <detail.icon className="h-4 w-4" />

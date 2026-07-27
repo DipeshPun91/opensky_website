@@ -61,7 +61,6 @@ function SkeletonTile({ size, index }: { size: TileSize; index: number }) {
 
 // Skeleton Grid - Matches the exact same pattern as the gallery
 function GallerySkeleton({ count = 12 }: { count?: number }) {
-  // Create skeleton items with the exact same pattern as the gallery
   const skeletonItems = useMemo(() => {
     const items = [];
     for (let i = 0; i < count; i++) {
@@ -81,7 +80,6 @@ function GallerySkeleton({ count = 12 }: { count?: number }) {
     return items;
   }, [count]);
 
-  // Split into left and right columns
   const leftItems = skeletonItems.filter((item) => item.column === "left");
   const rightItems = skeletonItems.filter((item) => item.column === "right");
 
@@ -91,14 +89,12 @@ function GallerySkeleton({ count = 12 }: { count?: number }) {
       animate={{ opacity: 1 }}
       className="flex flex-wrap w-full"
     >
-      {/* Left Column - Matches the exact same structure as the gallery */}
       <div className="flex flex-wrap w-full md:w-1/2">
         {leftItems.map((item, index) => (
           <SkeletonTile key={item.id} size={item.size} index={index} />
         ))}
       </div>
 
-      {/* Right Column - Matches the exact same structure as the gallery */}
       <div className="flex flex-wrap w-full md:w-1/2">
         {rightItems.map((item, index) => (
           <SkeletonTile
@@ -126,7 +122,6 @@ function MosaicTile({
   const [isLoading, setIsLoading] = useState(true);
   const widthClass = tile.size === "full" ? "w-full" : "w-1/2";
 
-  // First 4 images should be eager loaded for LCP
   const shouldBeEager = index < 4;
 
   return (
@@ -159,16 +154,18 @@ function MosaicTile({
             setIsLoading(false);
             onImageLoad?.();
           }}
+          onError={() => {
+            setIsLoading(false);
+            onImageLoad?.();
+          }}
         />
 
-        {/* Overlay with zoom icon */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
           <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <FiZoomIn className="w-10 h-10 sm:w-12 sm:h-12 text-white drop-shadow-lg" />
           </div>
         </div>
 
-        {/* Caption overlay on hover */}
         {tile.item.caption && (
           <div className="absolute bottom-0 left-0 right-0 p-4 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <p className="text-white text-sm font-medium line-clamp-2">
@@ -225,7 +222,6 @@ export default function GalleryMosaic({
     setLoadedCount((prev) => prev + 1);
   }, []);
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!selectedImage) return;
@@ -247,15 +243,48 @@ export default function GalleryMosaic({
     return <GallerySkeleton count={Math.max(items.length || 12, 12)} />;
   }
 
-  if (items.length === 0) {
+  if (!items || items.length === 0) {
     return (
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="text-center text-gray-500 py-12"
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-center py-16"
       >
-        No gallery images yet — check back soon.
-      </motion.p>
+        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-linear-to-br from-sky-50 to-blue-50 border border-sky-100/50 mb-4 shadow-sm">
+          <svg
+            className="w-10 h-10 text-sky-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+            />
+          </svg>
+        </div>
+        <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+          No Photos Yet
+        </h3>
+        <p className="text-gray-500 max-w-sm mx-auto">
+          We&apos;re currently curating our best moments. Check back soon to
+          explore the beauty of Pokhara Valley through our lens.
+        </p>
+        <div className="mt-6 flex justify-center gap-2">
+          {[...Array(3)].map((_, i) => (
+            <div
+              key={i}
+              className="w-1.5 h-1.5 rounded-full bg-sky-200"
+              style={{
+                animation: `pulse 2s ease-in-out ${i * 0.3}s infinite`,
+              }}
+            />
+          ))}
+        </div>
+      </motion.div>
     );
   }
 
