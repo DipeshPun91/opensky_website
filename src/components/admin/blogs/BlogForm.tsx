@@ -8,6 +8,7 @@ import type { BlogPost } from "@/lib/blog-posts";
 import type { MediaItem } from "@/lib/media";
 import MediaPicker from "../MediaPicker";
 import RichTextEditor from "../../ui/RichTextEditor";
+import { useToast } from "@/providers/ToastProvider";
 
 interface FormState {
   title: string;
@@ -49,6 +50,7 @@ function toInitialState(post?: BlogPost | null): FormState {
 
 export default function BlogPostForm({ post }: { post?: BlogPost | null }) {
   const router = useRouter();
+  const { showSuccess, showError } = useToast();
   const isEditing = Boolean(post);
 
   const [form, setForm] = useState<FormState>(toInitialState(post));
@@ -96,14 +98,31 @@ export default function BlogPostForm({ post }: { post?: BlogPost | null }) {
 
       if (!res.ok) {
         setErrorMessage(data.error || "Could not save this post.");
+        showError(
+          data.error || "Could not save this post.",
+          "Please check your input and try again",
+        );
         setSaving(false);
         return;
       }
+
+      showSuccess(
+        isEditing
+          ? "Post updated successfully!"
+          : "Post published successfully!",
+        isEditing
+          ? `"${form.title}" has been updated.`
+          : `"${form.title}" is now live on your blog.`,
+      );
 
       router.push("/admin/dashboard/blogs");
       router.refresh();
     } catch {
       setErrorMessage("Could not reach the server. Please try again.");
+      showError(
+        "Could not reach the server. Please try again.",
+        "Please check your internet connection",
+      );
       setSaving(false);
     }
   };
