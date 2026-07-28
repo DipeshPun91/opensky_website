@@ -13,6 +13,8 @@ import {
   FiX,
 } from "react-icons/fi";
 import type { MediaItem } from "@/lib/media";
+import { useToast } from "@/providers/ToastProvider";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
@@ -25,6 +27,7 @@ interface MediaGridProps {
 }
 
 export default function MediaGrid({ initialMedia }: MediaGridProps) {
+  const { showSuccess, showError } = useToast();
   const [media, setMedia] = useState<MediaItem[]>(initialMedia);
   const [filteredMedia, setFilteredMedia] = useState<MediaItem[]>(initialMedia);
   const [searchQuery, setSearchQuery] = useState("");
@@ -33,6 +36,17 @@ export default function MediaGrid({ initialMedia }: MediaGridProps) {
   const [deletingIds, setDeletingIds] = useState<Set<string>>(new Set());
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [selectedFolder, setSelectedFolder] = useState<string>("all");
+
+  // Delete dialog state
+  const [deleteDialog, setDeleteDialog] = useState<{
+    isOpen: boolean;
+    item: MediaItem | null;
+    isLoading: boolean;
+  }>({
+    isOpen: false,
+    item: null,
+    isLoading: false,
+  });
 
   // Get unique folders
   const folders = ["all", ...new Set(media.map((item) => item.folder))];
@@ -67,12 +81,19 @@ export default function MediaGrid({ initialMedia }: MediaGridProps) {
     setFilteredMedia(filtered);
   };
 
-  const handleDelete = async (item: MediaItem) => {
-    const confirmed = window.confirm(
-      `Delete "${item.label}"? This can't be undone.`,
-    );
-    if (!confirmed) return;
+  const handleDeleteClick = (item: MediaItem) => {
+    setDeleteDialog({
+      isOpen: true,
+      item,
+      isLoading: false,
+    });
+  };
 
+  const handleConfirmDelete = async () => {
+    const item = deleteDialog.item;
+    if (!item) return;
+
+    setDeleteDialog((prev) => ({ ...prev, isLoading: true }));
     setDeletingIds((prev) => new Set(prev).add(item.id));
     setErrorMessage(null);
 
@@ -84,14 +105,34 @@ export default function MediaGrid({ initialMedia }: MediaGridProps) {
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         setErrorMessage(data.error || "Could not delete that file.");
+        showError(
+          data.error || "Could not delete that file.",
+          "The file could not be removed",
+        );
+        setDeleteDialog({ isOpen: false, item: null, isLoading: false });
+        setDeletingIds((prev) => {
+          const next = new Set(prev);
+          next.delete(item.id);
+          return next;
+        });
         return;
       }
 
       const updatedMedia = media.filter((m) => m.id !== item.id);
       setMedia(updatedMedia);
       setFilteredMedia(updatedMedia);
+      showSuccess(
+        "File deleted successfully!",
+        `"${item.label}" has been removed.`,
+      );
+      setDeleteDialog({ isOpen: false, item: null, isLoading: false });
     } catch {
       setErrorMessage("Could not reach the server. Please try again.");
+      showError(
+        "Could not reach the server. Please try again.",
+        "Please check your internet connection",
+      );
+      setDeleteDialog({ isOpen: false, item: null, isLoading: false });
     } finally {
       setDeletingIds((prev) => {
         const next = new Set(prev);
@@ -101,9 +142,19 @@ export default function MediaGrid({ initialMedia }: MediaGridProps) {
     }
   };
 
+  const handleDeleteCancel = () => {
+    if (!deleteDialog.isLoading) {
+      setDeleteDialog({ isOpen: false, item: null, isLoading: false });
+    }
+  };
+
   const handleCopy = async (item: MediaItem) => {
     await navigator.clipboard.writeText(item.url);
     setCopiedId(item.id);
+    showSuccess(
+      "URL copied!",
+      "The image URL has been copied to your clipboard.",
+    );
     setTimeout(() => setCopiedId(null), 2000);
   };
 
@@ -113,124 +164,139 @@ export default function MediaGrid({ initialMedia }: MediaGridProps) {
   };
 
   return (
-    <div className="space-y-4">
-      {/* Error Message */}
-      {errorMessage && (
-        <div className="animate-slideDown rounded-xl border border-red-500/20 bg-red-500/10 px-5 py-4 text-sm text-red-400 backdrop-blur-sm">
-          <span className="font-medium">Error:</span> {errorMessage}
-        </div>
-      )}
-
-      {/* Toolbar */}
-      <div className="flex flex-col gap-4 rounded-xl border border-white/5 bg-gray-800/30 p-4 backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between">
-        {/* Search */}
-        <div className="relative flex-1 max-w-sm">
-          <FiSearch className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search files..."
-            value={searchQuery}
-            onChange={(e) => handleSearch(e.target.value)}
-            className="w-full rounded-lg border border-white/10 bg-gray-900/50 py-2 pl-10 pr-10 text-sm text-white placeholder:text-gray-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
-          />
-          {searchQuery && (
-            <button
-              onClick={clearSearch}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
-            >
-              <FiX className="h-4 w-4" />
-            </button>
-          )}
-        </div>
-
-        {/* Filters and Controls */}
-        <div className="flex flex-wrap items-center gap-3">
-          {/* Folder Filter */}
-          <div className="relative">
-            <select
-              value={selectedFolder}
-              onChange={(e) => handleFolderFilter(e.target.value)}
-              className="appearance-none rounded-lg border border-white/10 bg-gray-900/50 px-4 py-2 pr-10 text-sm text-white focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
-            >
-              {folders.map((folder) => (
-                <option key={folder} value={folder} className="bg-gray-900">
-                  {folder === "all" ? "All Folders" : folder}
-                </option>
-              ))}
-            </select>
-            <FiChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+    <>
+      <div className="space-y-4">
+        {/* Error Message */}
+        {errorMessage && (
+          <div className="animate-slideDown rounded-xl border border-red-500/20 bg-red-500/10 px-5 py-4 text-sm text-red-400 backdrop-blur-sm">
+            <span className="font-medium">Error:</span> {errorMessage}
           </div>
-
-          {/* View Toggle */}
-          <div className="flex rounded-lg border border-white/10 bg-gray-900/50 p-1">
-            <button
-              onClick={() => setViewMode("grid")}
-              className={`rounded-md p-2 transition-all ${
-                viewMode === "grid"
-                  ? "bg-sky-500/20 text-sky-400"
-                  : "text-gray-400 hover:text-white"
-              }`}
-              aria-label="Grid view"
-            >
-              <FiGrid className="h-4 w-4" />
-            </button>
-            <button
-              onClick={() => setViewMode("list")}
-              className={`rounded-md p-2 transition-all ${
-                viewMode === "list"
-                  ? "bg-sky-500/20 text-sky-400"
-                  : "text-gray-400 hover:text-white"
-              }`}
-              aria-label="List view"
-            >
-              <FiList className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Media Grid/List */}
-      <div className="rounded-xl border border-white/5 bg-gray-800/30 p-6 backdrop-blur-sm">
-        <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold text-white">
-            {filteredMedia.length}{" "}
-            {filteredMedia.length === 1 ? "File" : "Files"}
-          </h2>
-          {searchQuery && (
-            <button
-              onClick={clearSearch}
-              className="text-xs text-gray-400 hover:text-white"
-            >
-              Clear search
-            </button>
-          )}
-        </div>
-
-        {filteredMedia.length === 0 ? (
-          <EmptyState />
-        ) : viewMode === "grid" ? (
-          <GridLayout
-            items={filteredMedia}
-            onDelete={handleDelete}
-            onCopy={handleCopy}
-            deletingIds={deletingIds}
-            copiedId={copiedId}
-          />
-        ) : (
-          <ListLayout
-            items={filteredMedia}
-            onDelete={handleDelete}
-            onCopy={handleCopy}
-            deletingIds={deletingIds}
-            copiedId={copiedId}
-          />
         )}
+
+        {/* Toolbar */}
+        <div className="flex flex-col gap-4 rounded-xl border border-white/5 bg-gray-800/30 p-4 backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between">
+          {/* Search */}
+          <div className="relative flex-1 max-w-sm">
+            <FiSearch className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search files..."
+              value={searchQuery}
+              onChange={(e) => handleSearch(e.target.value)}
+              className="w-full rounded-lg border border-white/10 bg-gray-900/50 py-2 pl-10 pr-10 text-sm text-white placeholder:text-gray-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+            />
+            {searchQuery && (
+              <button
+                onClick={clearSearch}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+              >
+                <FiX className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+
+          {/* Filters and Controls */}
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Folder Filter */}
+            <div className="relative">
+              <select
+                value={selectedFolder}
+                onChange={(e) => handleFolderFilter(e.target.value)}
+                className="appearance-none rounded-lg border border-white/10 bg-gray-900/50 px-4 py-2 pr-10 text-sm text-white focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+              >
+                {folders.map((folder) => (
+                  <option key={folder} value={folder} className="bg-gray-900">
+                    {folder === "all" ? "All Folders" : folder}
+                  </option>
+                ))}
+              </select>
+              <FiChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            </div>
+
+            {/* View Toggle */}
+            <div className="flex rounded-lg border border-white/10 bg-gray-900/50 p-1">
+              <button
+                onClick={() => setViewMode("grid")}
+                className={`rounded-md p-2 transition-all ${
+                  viewMode === "grid"
+                    ? "bg-sky-500/20 text-sky-400"
+                    : "text-gray-400 hover:text-white"
+                }`}
+                aria-label="Grid view"
+              >
+                <FiGrid className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => setViewMode("list")}
+                className={`rounded-md p-2 transition-all ${
+                  viewMode === "list"
+                    ? "bg-sky-500/20 text-sky-400"
+                    : "text-gray-400 hover:text-white"
+                }`}
+                aria-label="List view"
+              >
+                <FiList className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Media Grid/List */}
+        <div className="rounded-xl border border-white/5 bg-gray-800/30 p-6 backdrop-blur-sm">
+          <div className="flex items-center justify-between">
+            <h2 className="text-base font-semibold text-white">
+              {filteredMedia.length}{" "}
+              {filteredMedia.length === 1 ? "File" : "Files"}
+            </h2>
+            {searchQuery && (
+              <button
+                onClick={clearSearch}
+                className="text-xs text-gray-400 hover:text-white"
+              >
+                Clear search
+              </button>
+            )}
+          </div>
+
+          {filteredMedia.length === 0 ? (
+            <EmptyState />
+          ) : viewMode === "grid" ? (
+            <GridLayout
+              items={filteredMedia}
+              onDelete={handleDeleteClick}
+              onCopy={handleCopy}
+              deletingIds={deletingIds}
+              copiedId={copiedId}
+            />
+          ) : (
+            <ListLayout
+              items={filteredMedia}
+              onDelete={handleDeleteClick}
+              onCopy={handleCopy}
+              deletingIds={deletingIds}
+              copiedId={copiedId}
+            />
+          )}
+        </div>
       </div>
-    </div>
+
+      {/* Delete Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={deleteDialog.isOpen}
+        onClose={handleDeleteCancel}
+        onConfirm={handleConfirmDelete}
+        title="Delete File"
+        message={`Are you sure you want to delete "${deleteDialog.item?.label}"? This action cannot be undone.`}
+        confirmLabel="Delete File"
+        cancelLabel="Cancel"
+        variant="danger"
+        isLoading={deleteDialog.isLoading}
+      />
+    </>
   );
 }
 
-// Sub-components
+// Sub-components (unchanged)
 interface LayoutProps {
   items: MediaItem[];
   onDelete: (item: MediaItem) => void;
