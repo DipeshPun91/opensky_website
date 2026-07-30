@@ -13,7 +13,7 @@ import {
 } from "react-icons/fi";
 import type { MediaItem } from "@/lib/media";
 
-const FOLDER_OPTIONS = ["general", "gallery", "team", "blog", "hero"];
+const FOLDER_OPTIONS = ["general", "gallery", "team", "blog", "hero", "logo"];
 
 export default function MediaManager() {
   const [label, setLabel] = useState("");
